@@ -1,0 +1,91 @@
+openapi: '3.0.3'
+info:
+  title: Backend to Judge API
+  version: '0.1'
+  license:
+    name: MIT
+    url: 'https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  '/submit-result/{judgeId}':
+    post:
+      description: ジャッジ結果
+      tags:
+        - submit result
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitResult'
+        required: true
+      summary: 通常のテストケースのジャッジ
+      responses:
+        '200':
+          description: OK
+        
+components:
+  schemas:
+    JudgeStatus:
+      title: JudgeStatus
+      type: string
+      description: ジャッジの結果
+      enum:
+        - AC
+        - WA
+        - TLE
+        - MLE
+        - OLE
+        - RE
+        - CE
+        - IE
+    TestResult:
+      title: TestResult
+      type: object
+      description: テストケースの結果
+      properties:
+        status:
+          title: status
+          $ref: '#/components/schemas/JudgeStatus'
+        text:
+          title: text
+          type: string
+          description: 追加情報
+          example: 'Alice win'
+        score:
+          title: score
+          type: number
+          description: スコア
+          example: 100
+        execTime:
+          title: execTime
+          type: number
+          description: 実行時間
+          example: 1.23
+        memorySize:
+          title: memorySize
+          type: number
+          description: メモリ使用量(byte)
+          example: 1234567
+      required:
+        - status
+        - score
+        - execTime
+        - memorySize
+    SubmitResult:
+      type: object
+      title: JudgeResult
+      description: テストケースのジャッジ結果
+      properties:
+        testResults:
+          title: testResults
+          type: array
+          description: テストケースのリスト
+          items:
+            $ref: '#/components/schemas/TestResult'
+        totalResult:
+          title: totalResult
+          $ref: '#/components/schemas/TestResult'
+      required:
+        - testResults
+        - totalResult
