@@ -8,7 +8,7 @@ info:
 servers:
   - url: https://api.server.test/v1
 paths:
-  '/submit-result/{judgeId}':
+  '/submit-result':
     post:
       description: ジャッジ結果
       tags:
@@ -77,6 +77,12 @@ components:
       title: JudgeResult
       description: テストケースのジャッジ結果
       properties:
+        judgeId:
+          title: judgeId
+          type: string
+          description: ジャッジID
+          format: uuid
+          example: 01234567-89ab-cdef-0123-456789abcdef
         testResults:
           title: testResults
           type: array
