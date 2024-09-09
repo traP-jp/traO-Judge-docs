@@ -1,0 +1,140 @@
+openapi: '3.0.3'
+info:
+  title: Judge to Backend API
+  version: '0.1'
+  license:
+    name: MIT
+    url: 'https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  '/judge':
+    post:
+      description: 全てのジャッジ
+      tags:
+        - judge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Judge'
+        required: true
+      summary: 全てのジャッジ
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    FileAccessibility:
+      title: FileAccessibility
+      type: string
+      description: ファイルのアクセス権限
+      enum:
+        - invisible
+        - readonly
+        - readwrite
+    Execution:
+      title: Execution
+      type: object
+      description: テストケース実行時の実行時間など
+      properties:
+        execTime:
+          title: execTime
+          type: number
+          description: 実行時間
+          example: 1.23
+        memorySize:
+          title: memorySize
+          type: number
+          description: メモリ使用量(byte)
+          example: 1234567
+        directoryAccessibilities:
+          title: directoryAccessibilities
+          type: array
+          description: ディレクトリのアクセス権限
+          items:
+            $ref: '#/components/schemas/FileAccessibility'
+        textResourceAccessibilities:
+          title: textResourceAccessibilities
+          type: array
+          description: テキストリソースのアクセス権限
+          items:
+            $ref: '#/components/schemas/FileAccessibility'
+        textAccessibilities:
+          title: textAccessibilities
+          type: array
+          description: テキストデータのアクセス権限
+          items:
+            $ref: '#/components/schemas/FileAccessibility'
+        shellScriptId:
+          title: shellScriptId
+          type: string
+          format: uuid
+          description: シェルスクリプトのID
+          example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+      required:
+        - execTime
+        - memorySize
+        - directoryAccessibilities
+        - textResourceAccessibilities
+        - textAccessibilities
+        - shellScriptId
+    Judge:
+      title: JudgeConfig
+      type: object
+      description: ジャッジの設定
+      properties:
+        judgeId:
+          title: JudgeId
+          type: string
+          format: uuid
+          description: ジャッジのID
+          example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+        directoryCount:
+          title: directoryCount
+          type: number
+          description: ディレクトリの数
+          example: 3
+        beforeTestExecs:
+          title: onSubmitExecs
+          type: array
+          description: テストケース実行前に一度だけ実行されるコマンド
+          items:
+            $ref: '#/components/schemas/Execution'
+        onTestExecs:
+          title: onTestExecs
+          type: array
+          description: テストケース実行時に実行されるコマンド
+          items:
+            $ref: '#/components/schemas/Execution'
+        afterTestExecs:
+          title: afterTestExecs
+          type: array
+          description: テストケース実行後に一度だけ実行されるコマンド
+          items:
+            $ref: '#/components/schemas/Execution'
+        textResourceIds:
+          title: textResources
+          type: array
+          description: 静的なテキストリソースのID
+          items:
+            type: string
+            format: uuid
+            example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+        oneTimetexts:
+          title: oneTimetexts
+          type: array
+          description: 動的に変化するテキストデータ
+          items:
+            type: string
+            example: |
+              user-1: 100
+              user-2: 200
+      required:
+        - judgeId
+        - directoryCount
+        - beforeTestExecs
+        - onTestExecs
+        - afterTestExecs
+        - textResourceIds
+        - oneTimetexts
