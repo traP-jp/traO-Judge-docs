@@ -93,5 +93,6 @@ components:
           title: totalResult
           $ref: '#/components/schemas/TestResult'
       required:
+        - judgeId
         - testResults
         - totalResult
