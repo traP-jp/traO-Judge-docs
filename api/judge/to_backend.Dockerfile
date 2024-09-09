@@ -1,3 +1,3 @@
 FROM swaggerapi/swagger-ui:v5.3.1
-COPY api/judge/to_backend.yaml /api/judge/to_backend.yaml
-ENV SWAGGER_JSON=/api/judge/to_backend.yaml
+COPY to_backend.yaml /openapi.yaml
+ENV SWAGGER_JSON=/openapi.yaml
