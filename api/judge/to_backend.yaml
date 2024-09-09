@@ -116,19 +116,20 @@ components:
         textResourceIds:
           title: textResources
           type: array
-          description: テキストリソースのID
+          description: 静的なテキストリソースのID
           items:
             type: string
             format: uuid
             example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        texts:
-          title: texts
+        oneTimetexts:
+          title: oneTimetexts
           type: array
-          description: テキストデータ
+          description: 動的に変化するテキストデータ
           items:
             type: string
             example: |
-              you lose
+              user-1: 100
+              user-2: 200
       required:
         - judgeId
         - directoryCount
@@ -136,4 +137,4 @@ components:
         - onTestExecs
         - afterTestExecs
         - textResourceIds
-        - texts
+        - oneTimetexts
