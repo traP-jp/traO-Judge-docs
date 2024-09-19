@@ -105,12 +105,14 @@ components:
           description: テストケース実行前に一度だけ実行されるコマンド
           items:
             $ref: '#/components/schemas/Execution'
-        onTestExecs:
-          title: onTestExecs
+        onTestsExecs:
+          title: onTestsExecs
           type: array
           description: テストケース実行時に実行されるコマンド
           items:
-            $ref: '#/components/schemas/Execution'
+            type: array
+            items:
+              $ref: '#/components/schemas/Execution'
         afterTestExecs:
           title: afterTestExecs
           type: array
