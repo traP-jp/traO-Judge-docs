@@ -90,11 +90,15 @@ components:
           format: uuid
           description: ジャッジのID
           example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        directoryCount:
-          title: directoryCount
-          type: number
-          description: ディレクトリの数
-          example: 3
+        beforeTestExecResourceConfig:
+          title: beforeTestExecResourceConfig
+          $ref: '#/components/schemas/ExecResourceConfig'
+        onTestExecResourceConfig:
+          title: onTestExecResourceConfig
+          $ref: '#/components/schemas/ExecResourceConfig'
+        afterTestExecResourceConfig:
+          title: afterTestExecResourceConfig
+          $ref: '#/components/schemas/ExecResourceConfig'
         beforeTestExecs:
           title: onSubmitExecs
           type: array
@@ -138,3 +142,23 @@ components:
         - afterTestExecs
         - textResourceIds
         - oneTimetexts
+    ExecResourceConfig:
+      title: ExecResourceConfig
+      type: object
+      description: 実行に必要なリソースの設定
+      properties:
+        directoryCount:
+          title: directoryCount
+          type: number
+          description: ディレクトリの数
+          example: 3
+        textResourceCount:
+          title: textResourceCount
+          type: number
+          description: テキストリソースの数
+          example: 3
+        textCount:
+          title: textCount
+          type: number
+          description: テキストデータの数
+          example: 3
