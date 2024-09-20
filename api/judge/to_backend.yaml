@@ -33,21 +33,53 @@ components:
         - invisible
         - readonly
         - readwrite
-    Execution:
-      title: Execution
+    ResourceDeclaration:
+      title: ResourceDeclaration
       type: object
-      description: テストケース実行時の実行時間など
+      description: 必要なリソースの宣言
       properties:
-        execTime:
-          title: execTime
+        directoryCount:
+          title: directoryCount
           type: number
-          description: 実行時間
-          example: 1.23
-        memorySize:
-          title: memorySize
+          description: ディレクトリの数
+          example: 3
+        textResourceCount:
+          title: textResourceCount
           type: number
-          description: メモリ使用量(byte)
-          example: 1234567
+          description: テキストリソースの数
+          example: 3
+        oneTimeTextCount:
+          title: oneTimeTextCount
+          type: number
+          description: テキストデータの数
+          example: 3
+    ResourceDefinition:
+      title: ResourceDefinition
+      type: object
+      description: 必要なリソースの定義
+      properties:
+        textResourceIds:
+          title: textResourceIds
+          type: array
+          description: 変化しないテキストリソースのID
+          items:
+            type: string
+            format: uuid
+            example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+        oneTimeTexts:
+          title: oneTimeTexts
+          type: array
+          description: 動的に変化するテキストデータ
+          items:
+            type: string
+            example: |
+              user-1: 100
+              user-2: 200
+    ResourceAccessibilities:
+      title: ExecResourceAccessibilities
+      type: object
+      description: リソースのアクセス権限
+      properties:
         directoryAccessibilities:
           title: directoryAccessibilities
           type: array
@@ -66,101 +98,92 @@ components:
           description: テキストデータのアクセス権限
           items:
             $ref: '#/components/schemas/FileAccessibility'
-        shellScriptId:
-          title: shellScriptId
+    Execution:
+      title: Execution
+      type: object
+      description: 実行の設定
+      properties:
+        execTime:
+          title: execTime
+          type: number
+          description: 実行時間(ms)
+          example: 1000
+        execMemory:
+          title: execMemory
+          type: number
+          description: 実行メモリ(MB)
+          example: 256
+        resourceAccessibilities:
+          title: resourceAccessibilities
+          type: object
+          description: リソースのアクセス権限
+          $ref: '#/components/schemas/ResourceAccessibilities'
+        entryPointShellScriptId:
+          title: entryPointShellScriptId
           type: string
+          description: エントリーポイントのシェルスクリプトのID
           format: uuid
-          description: シェルスクリプトのID
           example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-      required:
-        - execTime
-        - memorySize
-        - directoryAccessibilities
-        - textResourceAccessibilities
-        - textAccessibilities
-        - shellScriptId
+    ExecutionsProcedure:
+      title: ExecutionsProcedure
+      type: object
+      description: 実行の手順
+      properties:
+        resourceDeclaration:
+          title: resourceDeclaration
+          type: object
+          description: 必要なリソースの宣言
+          $ref: '#/components/schemas/ResourceDeclaration'
+        executions:
+          title: executions
+          type: array
+          description: 実行の設定
+          items:
+            $ref: '#/components/schemas/Execution'
     Judge:
-      title: JudgeConfig
+      title: Judge
       type: object
       description: ジャッジの設定
       properties:
-        judgeId:
-          title: JudgeId
+        testId:
+          title: testId
           type: string
+          description: テストのID
           format: uuid
-          description: ジャッジのID
           example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        beforeTestExecResourceConfig:
-          title: beforeTestExecResourceConfig
-          $ref: '#/components/schemas/ExecResourceConfig'
-        onTestExecResourceConfig:
-          title: onTestExecResourceConfig
-          $ref: '#/components/schemas/ExecResourceConfig'
-        afterTestExecResourceConfig:
-          title: afterTestExecResourceConfig
-          $ref: '#/components/schemas/ExecResourceConfig'
-        beforeTestExecs:
-          title: onSubmitExecs
-          type: array
-          description: テストケース実行前に一度だけ実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
-        onTestsExecs:
-          title: onTestsExecs
-          type: array
-          description: テストケース実行時に実行されるコマンド
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/Execution'
-        afterTestExecs:
-          title: afterTestExecs
-          type: array
-          description: テストケース実行後に一度だけ実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
-        textResourceIds:
-          title: textResources
-          type: array
-          description: 静的なテキストリソースのID
-          items:
-            type: string
-            format: uuid
-            example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        oneTimetexts:
-          title: oneTimetexts
-          type: array
-          description: 動的に変化するテキストデータ
-          items:
-            type: string
-            example: |
-              user-1: 100
-              user-2: 200
-      required:
-        - judgeId
-        - directoryCount
-        - beforeTestExecs
-        - onTestExecs
-        - afterTestExecs
-        - textResourceIds
-        - oneTimetexts
-    ExecResourceConfig:
-      title: ExecResourceConfig
-      type: object
-      description: 実行に必要なリソースの設定
-      properties:
-        directoryCount:
-          title: directoryCount
+        testCount:
+          title: testCount
           type: number
-          description: ディレクトリの数
+          description: テストの数
           example: 3
-        textResourceCount:
-          title: textResourceCount
-          type: number
-          description: テキストリソースの数
-          example: 3
-        textCount:
-          title: textCount
-          type: number
-          description: テキストデータの数
-          example: 3
+        beforeTestProcedure:
+          title: beforeTestProcedure
+          type: object
+          description: テスト前の手順
+          $ref: '#/components/schemas/ExecutionsProcedure'
+        beforeTestResourceDefinition:
+          title: beforeTestResourceDefinition
+          type: object
+          description: テスト前のリソースの定義
+          $ref: '#/components/schemas/ResourceDefinition'
+        testProcedure:
+          title: testProcedure
+          type: object
+          description: テストの手順
+          $ref: '#/components/schemas/ExecutionsProcedure'
+        testResourceDefinitions:
+          title: testResourceDefinitions
+          type: array
+          description: テストのリソースの定義
+          items:
+            $ref: '#/components/schemas/ResourceDefinition'
+        afterTestProcedure:
+          title: afterTestProcedure
+          type: object
+          description: テスト後の手順
+          $ref: '#/components/schemas/ExecutionsProcedure'
+        afterTestResourceDefinition:
+          title: afterTestResourceDefinition
+          type: object
+          description: テスト後のリソースの定義
+          $ref: '#/components/schemas/ResourceDefinition'
