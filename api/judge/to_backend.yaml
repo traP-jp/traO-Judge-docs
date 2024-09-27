@@ -25,14 +25,6 @@ paths:
           description: OK
 components:
   schemas:
-    FileAccessibility:
-      title: FileAccessibility
-      type: string
-      description: ファイルのアクセス権限
-      enum:
-        - invisible
-        - readonly
-        - readwrite
     Execution:
       title: Execution
       type: object
@@ -48,73 +40,39 @@ components:
           type: number
           description: メモリ使用量(byte)
           example: 1234567
-        directoryAccessibilities:
-          title: directoryAccessibilities
-          type: array
-          description: ディレクトリのアクセス権限
-          items:
-            $ref: '#/components/schemas/FileAccessibility'
-        textResourceAccessibilities:
-          title: textResourceAccessibilities
-          type: array
-          description: テキストリソースのアクセス権限
-          items:
-            $ref: '#/components/schemas/FileAccessibility'
-        textAccessibilities:
-          title: textAccessibilities
-          type: array
-          description: テキストデータのアクセス権限
-          items:
-            $ref: '#/components/schemas/FileAccessibility'
         shellScriptId:
           title: shellScriptId
           type: string
           format: uuid
           description: シェルスクリプトのID
           example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-      required:
-        - execTime
-        - memorySize
-        - directoryAccessibilities
-        - textResourceAccessibilities
-        - textAccessibilities
-        - shellScriptId
-    Judge:
-      title: JudgeConfig
-      type: object
-      description: ジャッジの設定
-      properties:
-        judgeId:
-          title: JudgeId
-          type: string
-          format: uuid
-          description: ジャッジのID
-          example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
         directoryCount:
           title: directoryCount
           type: number
           description: ディレクトリの数
           example: 3
-        beforeTestExecs:
-          title: onSubmitExecs
-          type: array
-          description: テストケース実行前に一度だけ実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
-        onTestExecs:
-          title: onTestExecs
-          type: array
-          description: テストケース実行時に実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
-        afterTestExecs:
-          title: afterTestExecs
-          type: array
-          description: テストケース実行後に一度だけ実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
+        textResourceCount:
+          title: textResourceCount
+          type: number
+          description: テキストリソースの数
+          example: 3
+        oneTimetexts:
+          title: oneTimetexts
+          type: number
+          description: テキストの数
+          example: 3
+      required:
+        - shellScriptId
+        - directoryCount
+        - textResourceCount
+        - oneTimetexts
+    ExecutionConfigMap:
+      title: ExecutionConfigMap
+      type: object
+      description: ジャッジの設定
+      properties:
         textResourceIds:
-          title: textResources
+          title: textResourceIds
           type: array
           description: 静的なテキストリソースのID
           items:
@@ -130,11 +88,50 @@ components:
             example: |
               user-1: 100
               user-2: 200
-      required:
-        - judgeId
-        - directoryCount
-        - beforeTestExecs
-        - onTestExecs
-        - afterTestExecs
-        - textResourceIds
-        - oneTimetexts
+    Judge:
+      title: JudgeConfig
+      type: object
+      description: ジャッジの設定
+      properties:
+        judgeId:
+          title: JudgeId
+          type: string
+          format: uuid
+          description: ジャッジのID
+          example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+        testCount:
+          title: testCount
+          type: number
+          description: テストケースの数
+          example: 3
+        beforeTestExecs:
+          title: onSubmitExecs
+          type: object
+          description: テストケース実行前に一度だけ実行されるコマンド
+          $ref: '#/components/schemas/Execution'
+        onTestExecs:
+          title: onTestExecs
+          type: object
+          description: テストケース実行時に実行されるコマンド
+          $ref: '#/components/schemas/Execution'
+        afterTestExecs:
+          title: afterTestExecs
+          type: object
+          description: テストケース実行後に一度だけ実行されるコマンド
+          $ref: '#/components/schemas/Execution'
+        beforeTestConfigMap:
+          title: beforeTestConfigMap
+          type: object
+          description: テストケース実行前に一度だけ実行されるコマンドの設定
+          $ref: '#/components/schemas/ExecutionConfigMap'
+        onTestConfigMaps:
+          title: onTestConfigMaps
+          type: array
+          description: テストケース実行時に実行されるコマンドの設定
+          items:
+            $ref: '#/components/schemas/ExecutionConfigMap'
+        afterTestConfigMap:
+          title: afterTestConfigMap
+          type: object
+          description: テストケース実行後に一度だけ実行されるコマンドの設定
+          $ref: '#/components/schemas/ExecutionConfigMap'
