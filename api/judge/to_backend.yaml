@@ -56,8 +56,8 @@ components:
           type: number
           description: テキストリソースの数
           example: 3
-        oneTimetexts:
-          title: oneTimetexts
+        oneTimetextCount:
+          title: oneTimetextCount
           type: number
           description: テキストの数
           example: 3
@@ -79,8 +79,8 @@ components:
             type: string
             format: uuid
             example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        oneTimetexts:
-          title: oneTimetexts
+        oneTimetextContents:
+          title: oneTimetextContents
           type: array
           description: 動的に変化するテキストデータ
           items:
