@@ -135,3 +135,12 @@ components:
           type: object
           description: テストケース実行後に一度だけ実行されるコマンドの設定
           $ref: '#/components/schemas/ExecutionConfigMap'
+      required:
+        - judgeId
+        - testCount
+        - beforeTestExecs
+        - onTestExecs
+        - afterTestExecs
+        - beforeTestConfigMap
+        - onTestConfigMaps
+        - afterTestConfigMap
