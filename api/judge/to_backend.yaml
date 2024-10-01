@@ -65,7 +65,7 @@ components:
         - shellScriptId
         - directoryCount
         - textResourceCount
-        - oneTimetexts
+        - oneTimetextCount
     ExecutionConfigMap:
       title: ExecutionConfigMap
       type: object
