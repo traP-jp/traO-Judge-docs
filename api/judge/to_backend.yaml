@@ -10,6 +10,7 @@ servers:
 paths:
   '/judge':
     post:
+      operationId: judge
       description: 全てのジャッジ
       tags:
         - judge

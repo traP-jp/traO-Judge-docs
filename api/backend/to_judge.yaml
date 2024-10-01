@@ -10,6 +10,7 @@ servers:
 paths:
   '/submit-result':
     post:
+      operationId: submitResult
       description: ジャッジ結果
       tags:
         - submit result
