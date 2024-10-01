@@ -25,60 +25,79 @@ paths:
           description: OK
 components:
   schemas:
-    FileAccessibility:
-      title: FileAccessibility
-      type: string
-      description: ファイルのアクセス権限
-      enum:
-        - invisible
-        - readonly
-        - readwrite
     Execution:
       title: Execution
       type: object
       description: テストケース実行時の実行時間など
       properties:
-        execTime:
-          title: execTime
-          type: number
-          description: 実行時間
-          example: 1.23
-        memorySize:
-          title: memorySize
-          type: number
-          description: メモリ使用量(byte)
-          example: 1234567
-        directoryAccessibilities:
-          title: directoryAccessibilities
-          type: array
-          description: ディレクトリのアクセス権限
-          items:
-            $ref: '#/components/schemas/FileAccessibility'
-        textResourceAccessibilities:
-          title: textResourceAccessibilities
-          type: array
-          description: テキストリソースのアクセス権限
-          items:
-            $ref: '#/components/schemas/FileAccessibility'
-        textAccessibilities:
-          title: textAccessibilities
-          type: array
-          description: テキストデータのアクセス権限
-          items:
-            $ref: '#/components/schemas/FileAccessibility'
+        optionalInfo:
+          title: optionalInfo
+          type: object
+          description: 任意の情報
+          properties:
+            execTime:
+              title: execTime
+              type: number
+              description: 実行時間
+              example: 1.23
+            memorySize:
+              title: memorySize
+              type: number
+              description: メモリ使用量(byte)
+              example: 123456789
+            language:
+              title: language
+              type: string
+              description: 使用言語
+              example: python
         shellScriptId:
           title: shellScriptId
           type: string
           format: uuid
           description: シェルスクリプトのID
           example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+        directoryCount:
+          title: directoryCount
+          type: number
+          description: ディレクトリの数
+          example: 3
+        textResourceCount:
+          title: textResourceCount
+          type: number
+          description: テキストリソースの数
+          example: 3
+        oneTimeTextCount:
+          title: oneTimeTextCount
+          type: number
+          description: テキストの数
+          example: 3
       required:
-        - execTime
-        - memorySize
-        - directoryAccessibilities
-        - textResourceAccessibilities
-        - textAccessibilities
         - shellScriptId
+        - directoryCount
+        - textResourceCount
+        - oneTimeTextCount
+    ExecutionConfigMap:
+      title: ExecutionConfigMap
+      type: object
+      description: ジャッジの設定
+      properties:
+        textResourceIds:
+          title: textResourceIds
+          type: array
+          description: 静的なテキストリソースのID
+          items:
+            type: string
+            format: uuid
+            example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
+        oneTimeTextContents:
+          title: oneTimeTextContents
+          type: array
+          description: 動的に変化するテキストデータ
+          items:
+            type: string
+            example: |
+              user-1: 100
+              user-2: 200
     Judge:
       title: JudgeConfig
       type: object
@@ -90,51 +109,48 @@ components:
           format: uuid
           description: ジャッジのID
           example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        directoryCount:
-          title: directoryCount
+        testCount:
+          title: testCount
           type: number
-          description: ディレクトリの数
+          description: テストケースの数
           example: 3
         beforeTestExecs:
           title: onSubmitExecs
-          type: array
+          type: object
           description: テストケース実行前に一度だけ実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
+          $ref: '#/components/schemas/Execution'
         onTestExecs:
           title: onTestExecs
-          type: array
+          type: object
           description: テストケース実行時に実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
+          $ref: '#/components/schemas/Execution'
         afterTestExecs:
           title: afterTestExecs
-          type: array
+          type: object
           description: テストケース実行後に一度だけ実行されるコマンド
-          items:
-            $ref: '#/components/schemas/Execution'
-        textResourceIds:
-          title: textResources
+          $ref: '#/components/schemas/Execution'
+        beforeTestConfigMap:
+          title: beforeTestConfigMap
+          type: object
+          description: テストケース実行前に一度だけ実行されるコマンドの設定
+          $ref: '#/components/schemas/ExecutionConfigMap'
+        onTestConfigMaps:
+          title: onTestConfigMaps
           type: array
-          description: 静的なテキストリソースのID
+          description: テストケース実行時に実行されるコマンドの設定
           items:
-            type: string
-            format: uuid
-            example: 68ffddc4-adc6-4f93-9ff2-d862ee6cce7a
-        oneTimetexts:
-          title: oneTimetexts
-          type: array
-          description: 動的に変化するテキストデータ
-          items:
-            type: string
-            example: |
-              user-1: 100
-              user-2: 200
+            $ref: '#/components/schemas/ExecutionConfigMap'
+        afterTestConfigMap:
+          title: afterTestConfigMap
+          type: object
+          description: テストケース実行後に一度だけ実行されるコマンドの設定
+          $ref: '#/components/schemas/ExecutionConfigMap'
       required:
         - judgeId
-        - directoryCount
+        - testCount
         - beforeTestExecs
         - onTestExecs
         - afterTestExecs
-        - textResourceIds
-        - oneTimetexts
+        - beforeTestConfigMap
+        - onTestConfigMaps
+        - afterTestConfigMap
