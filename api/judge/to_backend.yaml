@@ -115,24 +115,12 @@ components:
           description: テストケースの数
           example: 3
         beforeTestExecs:
-          title: onSubmitExecs
-          type: object
-          description: テストケース実行前に一度だけ実行されるコマンド
           $ref: '#/components/schemas/Execution'
         onTestExecs:
-          title: onTestExecs
-          type: object
-          description: テストケース実行時に実行されるコマンド
           $ref: '#/components/schemas/Execution'
         afterTestExecs:
-          title: afterTestExecs
-          type: object
-          description: テストケース実行後に一度だけ実行されるコマンド
           $ref: '#/components/schemas/Execution'
         beforeTestConfigMap:
-          title: beforeTestConfigMap
-          type: object
-          description: テストケース実行前に一度だけ実行されるコマンドの設定
           $ref: '#/components/schemas/ExecutionConfigMap'
         onTestConfigMaps:
           title: onTestConfigMaps
@@ -141,9 +129,6 @@ components:
           items:
             $ref: '#/components/schemas/ExecutionConfigMap'
         afterTestConfigMap:
-          title: afterTestConfigMap
-          type: object
-          description: テストケース実行後に一度だけ実行されるコマンドの設定
           $ref: '#/components/schemas/ExecutionConfigMap'
       required:
         - judgeId
