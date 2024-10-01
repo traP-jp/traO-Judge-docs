@@ -45,6 +45,11 @@ components:
               type: number
               description: メモリ使用量(byte)
               example: 123456789
+            language:
+              title: language
+              type: string
+              description: 使用言語
+              example: python
         shellScriptId:
           title: shellScriptId
           type: string
