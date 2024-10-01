@@ -30,16 +30,21 @@ components:
       type: object
       description: テストケース実行時の実行時間など
       properties:
-        execTime:
-          title: execTime
-          type: number
-          description: 実行時間
-          example: 1.23
-        memorySize:
-          title: memorySize
-          type: number
-          description: メモリ使用量(byte)
-          example: 1234567
+        optionalInfo:
+          title: optionalInfo
+          type: object
+          description: 任意の情報
+          properties:
+            execTime:
+              title: execTime
+              type: number
+              description: 実行時間
+              example: 1.23
+            memorySize:
+              title: memorySize
+              type: number
+              description: メモリ使用量(byte)
+              example: 123456789
         shellScriptId:
           title: shellScriptId
           type: string
