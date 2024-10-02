@@ -21,4 +21,4 @@ jobs:
       run: docker run --rm
         -v ${PWD}:/local
         openapitools/openapi-generator-cli validate
-        -i /local/api/backend/to_judge.yaml
+        -i /local/to_backend.yaml
