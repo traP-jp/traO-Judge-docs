@@ -1,0 +1,21 @@
+name: _test-judge-api
+
+on:
+  workflow_call:
+
+
+jobs:
+ test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api/judge
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Generate API test
+      run: |
+        docker run --rm
+        -v ${PWD}:/local openapitools/openapi-generator-cli validate
+        -i /local/api/backend/to_judge.yaml
