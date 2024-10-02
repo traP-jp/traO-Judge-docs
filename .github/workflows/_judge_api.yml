@@ -1,4 +1,4 @@
-name: _test-judge-api
+name: test-judge-api
 
 on:
     push:
