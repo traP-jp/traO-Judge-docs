@@ -170,8 +170,6 @@ paths:
         '404':
           description: Not Found
       description: 問題一覧を取得する
-      requestBody:
-        content: {}
       tags:
         - problems
       parameters:
@@ -843,8 +841,6 @@ paths:
           description: Not Found
       operationId: getLanguages
       description: 使用できる言語の一覧
-      requestBody:
-        content: {}
 components:
   schemas:
     Problem:
