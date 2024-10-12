@@ -1,0 +1,23 @@
+name: test-backend-api
+
+on:
+  push:
+    branches: ["develop"]
+  pull_request:
+    branches: ["develop"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api/backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate API test
+        run: docker run --rm
+          -v ${PWD}:/local
+          openapitools/openapi-generator-cli validate
+          -i /local/frontend-backend.yaml
