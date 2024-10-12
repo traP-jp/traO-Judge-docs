@@ -1,4 +1,4 @@
-name: test-backend-api
+name: test-front-back-api
 
 on:
   push:
