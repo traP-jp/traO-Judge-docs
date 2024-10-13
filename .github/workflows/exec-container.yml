@@ -1,4 +1,4 @@
-name: test-judge-api
+name: nix-buildcheck
 
 on:
     push:
