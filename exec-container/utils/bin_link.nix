@@ -31,7 +31,7 @@ in
       alias=$(echo $aliases | cut -d' ' -f$(($i + 1)))
       path=$(echo $pathes | cut -d' ' -f$(($i + 1)))
       target=$out/linked-bin/$alias
-      source=$drv/$path
+      source=${drv}/$path
       if [ -e $target ]; then
         echo "Error: $target already exists"
         exit 1
