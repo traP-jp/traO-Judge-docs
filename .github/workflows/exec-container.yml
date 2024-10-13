@@ -9,7 +9,7 @@ on:
 
 jobs:
  test:
-    runs-on: nixos/nix
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./exec-container
@@ -17,5 +17,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     
+    - name: Install Nix
+      run: curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
     - name: nix-buildcheck
       run: nix build --extra-experimental-features 'nix-command flakes'
