@@ -1,0 +1,21 @@
+name: test-judge-api
+
+on:
+    push:
+      branches: [ "develop" ]
+    pull_request:
+      branches: [ "develop" ]  
+
+
+jobs:
+ test:
+    runs-on: nixos/nix
+    defaults:
+      run:
+        working-directory: ./exec-container
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: nix-buildcheck
+      run: nix build --extra-experimental-features 'nix-command flakes'
