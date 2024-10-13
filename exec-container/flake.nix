@@ -3,13 +3,27 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs }: {
-
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-
-    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
-
-  };
+  outputs = { nixpkgs, flake-utils,... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        bin_flatten_drv = import ./utils/bin_flatten.nix { inherit pkgs; };
+        bin_link_drv = import ./utils/bin_link.nix { inherit pkgs; };
+        python_drv = import ./python/python-all.nix {
+          inherit pkgs;
+          inherit bin_flatten_drv;
+          inherit bin_link_drv;
+        };
+      in
+      {
+        packages = {
+          default = bin_flatten_drv {
+            drvs = [ python_drv ];
+          };
+        };
+      }
+    );
 }
