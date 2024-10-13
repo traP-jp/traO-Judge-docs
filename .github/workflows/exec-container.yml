@@ -8,16 +8,12 @@ on:
 
 
 jobs:
- test:
+  tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./exec-container
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Install Nix
-      run: sh <(curl -L https://nixos.org/nix/install) --daemon --yes 
-    - name: nix-buildcheck
-      run: /root/.nix-profile/bin/nix build --extra-experimental-features 'nix-command flakes'
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v27
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - run: nix build
+    - run: nix flake check
