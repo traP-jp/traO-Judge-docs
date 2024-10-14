@@ -1,0 +1,1694 @@
+openapi: 3.0.3
+info:
+  title: traO Judge API
+  description: traO Judge API (front ↔ back)
+  version: 0.1.0
+tags:
+  - name: authentication
+  - name: editorials
+  - name: email
+  - name: language
+  - name: me
+  - name: oauth2
+  - name: problems
+  - name: submissions
+  - name: testcases
+  - name: users
+paths:
+  '/editorials/{editorialId}':
+    parameters:
+      - $ref: '#/components/parameters/editorialIdInPath'
+    get:
+      summary: getEditorial
+      operationId: getEditorial
+      tags:
+        - editorials
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Editorial'
+        '404':
+          description: 解説が存在しません(または解説の閲覧権限がありません)
+      description: 個別の解説を取得する
+    put:
+      summary: putEditorial
+      operationId: putEditorial
+      tags:
+        - editorials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutEditorialRequest'
+      responses:
+        '204':
+          description: 正常に変更されました
+        '400':
+          description: Bad Request
+        '403':
+          description: |-
+            Forbidden
+            解説を変更する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            解説が存在しません. (または解説の閲覧権限がありません.)
+      description: 個別の解説を変更する
+    delete:
+      summary: deleteEditorial
+      operationId: deleteEditorial
+      tags:
+        - editorials
+      responses:
+        '204':
+          description: 正常に削除されました.
+        '403':
+          description: |-
+            Forbidden
+            解説を削除する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            解説が存在しません. (または解説の閲覧権限がありません.)
+      description: 個別の解説を削除する
+  '/testcases/{testcaseId}':
+    parameters:
+      - $ref: '#/components/parameters/testcaseIdInPath'
+    get:
+      summary: getTestcase
+      tags:
+        - testcases
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Testcase'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      operationId: getTestcase
+      description: あるidのテストケースを取得
+    put:
+      summary: putTestcase
+      operationId: putTestcase
+      responses:
+        '204':
+          description: 正常に変更されました
+          content: {}
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: 単体のテストケースの編集
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutTestcaseRequest'
+      tags:
+        - testcases
+    delete:
+      summary: deleteTestcase
+      operationId: deleteTestcase
+      responses:
+        '204':
+          description: 正常に削除されました
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: 単一のテストケースの削除
+      tags:
+        - testcases
+  /problems:
+    post:
+      summary: postProblem
+      description: |-
+        問題を新規作成・投稿する
+        このとき作成された問題は必ず非公開になる
+        公開する場合は PUT で変更する必要がある
+      operationId: postProblem
+      tags:
+        - problems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostProblemRequest'
+      responses:
+        '200':
+          description: |-
+            OK
+            問題が投稿されました.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '400':
+          description: Bad Request
+    get:
+      summary: getProblems
+      operationId: getProblems
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemSummaries'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      description: 問題一覧を取得する
+      tags:
+        - problems
+      parameters:
+        - $ref: '#/components/parameters/limitInQuery'
+        - $ref: '#/components/parameters/offsetInQuery'
+        - $ref: '#/components/parameters/problemsOrderByInQuery'
+        - $ref: '#/components/parameters/userNameInQuery'
+        - $ref: '#/components/parameters/userIdInQuery'
+  '/problems/{problemId}':
+    parameters:
+      - $ref: '#/components/parameters/problemIdInPath'
+    get:
+      summary: getProblem
+      operationId: getProblem
+      tags:
+        - problems
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: 個別の問題を取得する
+    put:
+      summary: putProblem
+      operationId: putProblem
+      tags:
+        - problems
+      responses:
+        '204':
+          description: 正常に変更されました
+          content: {}
+        '400':
+          description: Bad Request
+        '403':
+          description: |-
+            Forbidden
+            問題を編集する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: 問題を修正する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutProblemRequest'
+    delete:
+      summary: deleteProblem
+      operationId: deleteProblem
+      tags:
+        - problems
+      responses:
+        '204':
+          description: 正常に削除されました.
+        '403':
+          description: |-
+            Forbidden
+            問題を削除する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: 問題を削除する
+  '/problems/{problemId}/editorials':
+    parameters:
+      - $ref: '#/components/parameters/problemIdInPath'
+    get:
+      summary: getEditorialsOnProblem
+      operationId: getEditorialsOnProblem
+      tags:
+        - editorials
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditorialSummaries'
+        '404':
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: ある問題の全ての解説を取得する
+    post:
+      summary: postEditorial
+      operationId: postEditorial
+      tags:
+        - editorials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostEditorialRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Editorial'
+        '400':
+          description: Bad Request
+        '403':
+          description: |-
+            Forbidden
+            解説を投稿する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: 解説を投稿する
+  '/problems/{problemId}/testcases':
+    parameters:
+      - $ref: '#/components/parameters/problemIdInPath'
+    post:
+      summary: postTestcases
+      operationId: postTestcases
+      tags:
+        - testcases
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostTestcaseRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestcaseSummaries'
+        '400':
+          description: Bad Request
+        '403':
+          description: |-
+            Forbidden
+            解説を投稿する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: テストケースを投稿する
+    get:
+      summary: getTestcases
+      operationId: getTestcases
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestcaseSummaries'
+        '404':
+          description: Not Found
+      description: 全てのテストケースを取得
+      tags:
+        - testcases
+  '/problems/{problemId}/submissions':
+    parameters:
+      - name: problemId
+        in: path
+        description: 問題ID
+        required: true
+        schema:
+          type: number
+    post:
+      summary: postSubmission
+      operationId: postSubmission
+      tags:
+        - submissions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostSubmissionRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        '400':
+          description: Bad Request
+        '403':
+          description: |-
+            Forbidden
+            ソースコードを提出する権限がありません.
+        '404':
+          description: |-
+            Not Found
+            提出が存在しません. (または提出の閲覧権限がありません.)
+      description: ソースコードを提出する
+  /submissions:
+    get:
+      summary: getSubmissions
+      tags:
+        - submissions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionSummaries'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      operationId: getSubmissions
+      parameters:
+        - $ref: '#/components/parameters/submissionsOrderByInQuery'
+        - $ref: '#/components/parameters/judgeStatusInQuery'
+        - $ref: '#/components/parameters/codeLanguageInQuery'
+        - $ref: '#/components/parameters/userNameInQuery'
+        - $ref: '#/components/parameters/userIdInQuery'
+        - $ref: '#/components/parameters/limitInQuery'
+        - $ref: '#/components/parameters/offsetInQuery'
+        - $ref: '#/components/parameters/problemIdInQuery'
+      description: 全ての提出を取得
+  '/submissions/{submissionId}':
+    parameters:
+      - $ref: '#/components/parameters/submissionIdInPath'
+    get:
+      summary: getSubmission
+      operationId: getSubmission
+      tags:
+        - submissions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        '404':
+          description: |-
+            Not Found
+            提出が存在しません. (または提出の閲覧権限がありません.)
+      description: 個別の提出を取得する
+  '/users/{userId}':
+    parameters:
+      - $ref: '#/components/parameters/userIdInPath'
+    get:
+      summary: getUser
+      operationId: getUser
+      tags:
+        - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: |-
+            Not Found
+            ユーザーが存在しません.
+      description: 個別のユーザー情報を取得する
+  /users/me:
+    get:
+      summary: getMe
+      operationId: getMe
+      tags:
+        - me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: |-
+            Unauthorized
+            ログインしていません.
+      description: 自身の情報を取得する
+    put:
+      summary: putMe
+      operationId: putUsersMeIcon
+      responses:
+        '200':
+          description: 正常に更新されました
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 不正なリクエストです
+      tags:
+        - me
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutMeRequest'
+      description: アイコンなど自身に関連する情報の編集をします
+  /users/me/email:
+    put:
+      summary: putMeEmail
+      operationId: putMeEmail
+      responses:
+        '204':
+          description: 正常に更新されました　メール認証を行なってください
+        '400':
+          description: 不正なリクエストです
+      tags:
+        - me
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+      description: メール情報を書き換える メール情報を書き換えた後はメール認証が必要である
+  /users/me/password:
+    put:
+      summary: putUserMePassword
+      operationId: putUsersMePassword
+      responses:
+        '204':
+          description: 正常に更新されました
+        '400':
+          description: 不正なリクエストです
+      tags:
+        - me
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutPasswordRequest'
+      description: ログイン後にパスワードを変更する
+  /signup/request:
+    post:
+      summary: postSignupRequest
+      operationId: postSignupRequest
+      responses:
+        '201':
+          description: 認証用のURLを送信しました　メール認証を行なってください
+        '400':
+          description: 不正なリクエストです　メールアドレスの形式を確認してください
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      tags:
+        - authentication
+      description: メールアドレスを渡し，そこに認証用のリンクを送る。
+  /signup:
+    post:
+      summary: postSignup
+      operationId: postSignup
+      responses:
+        '201':
+          description: 正常にユーザーを作成できました　メール認証を行なってください
+        '400':
+          description: 不正なリクエストです
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+      tags:
+        - authentication
+      description: |-
+        email+passwordによるユーザー登録
+        クエリパラメタにtokenを持ち，それでメール情報を管理する
+        リクエストを受け取ったら`/activate?payload=JWT`のような形式のメール有効化用エンドポイントを含むメールをバックエンドからユーザーに送る。
+        ユーザーがそのアドレスをクリックしたら，メール有効化処理をし，適切に終了したらログイン画面にリダイレクトする。
+      parameters:
+        - $ref: '#/components/parameters/JWTWithoutUserId'
+  /login:
+    post:
+      summary: postLogin
+      operationId: postLogin
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: 不正なリクエストです　ユーザー名とパスワードを確認してください
+        '401':
+          description: Unauthorized
+      tags:
+        - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEmailAndPassword'
+      description: ログイン
+  /logout:
+    post:
+      summary: postLogout
+      operationId: postLogout
+      responses:
+        '204':
+          description: No Content
+      description: ログアウト
+      tags:
+        - authentication
+  /reset-password/request:
+    post:
+      summary: postResetPasswordReset
+      tags:
+        - authentication
+      responses:
+        '204':
+          description: 正常にリセットメールを送信しました
+      operationId: postRequestResetPassword
+      description: |-
+        パスワード変更のリクエスト
+        リクエストを受け取ったら`/reset-password?token=JWT`のような形式のエンドポイントを含むメールをバックエンドからユーザーに送る。
+        ユーザーがそれをクリックするとリセット用画面に遷移する。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+  /reset-password:
+    post:
+      summary: postResetPassword
+      operationId: postResetPassword
+      responses:
+        '204':
+          description: 正常に更新されました
+      description: 新しいパスワードをPOSTする
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      tags:
+        - authentication
+      parameters:
+        - $ref: '#/components/parameters/JWTWithUserId'
+  /activate:
+    get:
+      summary: getActivateEmailAddress
+      parameters:
+        - $ref: '#/components/parameters/JWTWithUserId'
+        - $ref: '#/components/parameters/JWTWithoutUserId'
+      responses:
+        '200':
+          description: メールアドレスが正常に有効化されました
+        '400':
+          description: Invalid token or bad request
+        '401':
+          description: Unauthorized or expired token
+        '404':
+          description: User not found
+      operationId: getActivate
+      description: メールアドレスの有効化
+      tags:
+        - email
+  /google-oauth2/params:
+    get:
+      summary: getGoogleOAuth2Params
+      operationId: getGoogleAuthParams
+      responses:
+        '200':
+          description: 正しいURLが返されました
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                required:
+                  - url
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      description: GoogleOAuthのためのエンドポイント
+      tags:
+        - oauth2
+    parameters: []
+  /github-oauth2/params:
+    get:
+      summary: getGithubOAuth2Params
+      operationId: getgithubAuthParams
+      responses:
+        '200':
+          description: 正しいURLが返されました
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                required:
+                  - url
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      description: GitHubOAuthのためのエンドポイント
+      tags:
+        - oauth2
+    parameters: []
+  /traq-oauth2/revoke:
+    post:
+      summary: postTraqOAuth2Revoke
+      operationId: revokeTraqAuth
+      tags:
+        - oauth2
+      requestBody:
+        description: Access token to be revoked
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: The access token to revoke
+              required:
+                - token
+      responses:
+        '201':
+          description: トークンは正常に削除されました
+          content: {}
+        '400':
+          description: Invalid request or token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid token or request
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      description: traQOAuthのトークンを削除する
+  /google-oauth2/revoke:
+    post:
+      summary: postGoogleOAuth2Revoke
+      operationId: revokeGoogleAuth
+      tags:
+        - oauth2
+      requestBody:
+        description: Access token to be revoked
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: The access token to revoke
+              required:
+                - token
+      responses:
+        '201':
+          description: トークンは正常に削除されました
+          content: {}
+        '400':
+          description: Invalid request or token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid token or request
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      description: GoogleOAuthのトークンを削除する
+  /github-oauth2/revoke:
+    post:
+      summary: postGithubOAuth2Revoke
+      operationId: revokeGithubAuth
+      tags:
+        - oauth2
+      requestBody:
+        description: Access token to be revoked
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: The access token to revoke
+              required:
+                - token
+      responses:
+        '201':
+          description: トークンは正常に削除されました
+          content: {}
+        '400':
+          description: Invalid request or token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid token or request
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      description: GithubOAuthのトークンを削除する
+  /languages:
+    get:
+      summary: getLanguages
+      tags:
+        - language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      operationId: getLanguages
+      description: 使用できる言語の一覧
+components:
+  schemas:
+    Problem:
+      title: Problem
+      type: object
+      description: 問題の詳細
+      properties:
+        id:
+          type: string
+          description: 問題ID
+        title:
+          type: string
+          description: 問題タイトル
+        authorId:
+          type: integer
+          description: 作問者のユーザーID
+        isPublic:
+          type: boolean
+          description: |-
+            問題が全体公開かどうか.
+
+            * `true` - 公開
+            * `false` - 非公開 (問題の作者のみ閲覧可)
+        difficulty:
+          type: integer
+          description: 難易度
+        statement:
+          type: string
+          description: 問題文 (HTML形式)
+        timeLimit:
+          type: integer
+          description: 実行時間制限 (ms)
+        memoryLimit:
+          type: integer
+          description: メモリ制限 (MiB)
+        solvedCount:
+          type: integer
+        testcases:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestcaseSummaries'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - authorId
+        - isPublic
+        - difficulty
+        - statement
+        - timeLimit
+        - memoryLimit
+        - solvedCount
+        - testcases
+        - createdAt
+        - updatedAt
+    ProblemSummary:
+      title: ProblemSummary
+      type: object
+      description: 問題の要約
+      properties:
+        id:
+          type: string
+          description: 問題ID
+        title:
+          type: string
+          description: 問題タイトル
+        authorId:
+          type: integer
+          description: 作問者のユーザーID
+        isPublic:
+          type: boolean
+          description: |-
+            問題が全体公開かどうか.
+
+            * `true` - 公開
+            * `false` - 非公開 (問題の作者のみ閲覧可)
+        difficulty:
+          type: integer
+          description: 難易度
+        timeLimit:
+          type: integer
+          description: 実行時間制限 (ms)
+        memoryLimit:
+          type: integer
+          description: メモリ制限 (MiB)
+        solvedCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - authorId
+        - isPublic
+        - difficulty
+        - timeLimit
+        - memoryLimit
+        - solvedCount
+        - createdAt
+        - updatedAt
+    ProblemSummaries:
+      title: Problems
+      type: object
+      properties:
+        total:
+          type: integer
+        problems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemSummary'
+      required:
+        - total
+        - problems
+    PostProblemRequest:
+      title: PostProblemRequest
+      type: object
+      description: 問題の投稿リクエスト
+      properties:
+        title:
+          type: string
+          description: 問題タイトル
+        difficulty:
+          type: integer
+          description: 難易度
+        statement:
+          type: string
+          description: 問題文 (HTML形式)
+        timeLimit:
+          type: integer
+          description: 実行時間制限 (ms)
+        memoryLimit:
+          type: integer
+          description: メモリ制限 (MiB)
+      required:
+        - title
+        - difficulty
+        - statement
+        - timeLimit
+        - memoryLimit
+    PutProblemRequest:
+      title: PutProblemRequest
+      type: object
+      description: 問題の変更リクエスト
+      properties:
+        title:
+          type: string
+          description: 問題タイトル
+        isPublic:
+          type: boolean
+          description: |-
+            問題が全体公開かどうか.
+
+            * `true` - 公開
+            * `false` - 非公開 (問題の作者のみ閲覧可)
+        difficulty:
+          type: integer
+          description: 難易度
+        statement:
+          type: string
+          description: 問題文 (HTML形式)
+        timeLimit:
+          type: integer
+          description: 実行時間制限 (ms)
+        memoryLimit:
+          type: integer
+          description: メモリ制限 (MiB)
+      required:
+        - title
+        - isPublic
+        - difficulty
+        - timeLimit
+        - memoryLimit
+    User:
+      title: User
+      type: object
+      description: ユーザー情報
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+        name:
+          type: string
+          description: ユーザー名
+        traqId:
+          type: string
+          description: traQのID
+        githubId:
+          type: string
+          description: GitHubのID
+        iconUrl:
+          type: string
+        postProblems:
+          $ref: '#/components/schemas/ProblemSummaries'
+        submitProblems:
+          $ref: '#/components/schemas/SubmissionSummaries'
+        xLink:
+          type: string
+        githubLink:
+          type: string
+        selfIntroduction:
+          type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - role
+        - createdAt
+        - updatedAt
+    PutMeRequest:
+      title: PutMeRequest
+      type: object
+      properties:
+        userName:
+          type: string
+        icon:
+          type: string
+          format: binary
+        xLink:
+          type: string
+        githubLink:
+          type: string
+        selfIntroduction:
+          type: string
+    PutPasswordRequest:
+      title: PutPasswordRequest
+      type: object
+      description: ログイン後のパスワード変更用
+      properties:
+        oldPassword:
+          type: string
+          format: password
+        newPassword:
+          type: string
+          format: password
+      required:
+        - oldPassword
+        - newPassword
+    SubmissionSummary:
+      title: SubmissionSummary
+      type: object
+      description: 提出
+      properties:
+        id:
+          type: string
+          description: 提出ID
+        problemId:
+          type: integer
+          description: 問題ID
+        userId:
+          type: integer
+          description: 提出ユーザーID
+        userName:
+          type: string
+        submittedAt:
+          type: string
+          format: date-time
+          description: 提出日時
+        languageId:
+          type: integer
+          description: 提出コードの言語ID
+        totalScore:
+          type: integer
+          description: スコアの合計
+        maxTime:
+          type: integer
+          description: 実行時間の最大値 (ms)
+        maxMemory:
+          type: number
+          description: メモリ使用量の最大値 (MiB)
+        codeLength:
+          type: number
+        judgeStatus:
+          $ref: '#/components/schemas/JudgeStatus'
+      required:
+        - id
+        - problemId
+        - userId
+        - userName
+        - submittedAt
+        - languageId
+        - totalScore
+        - maxTime
+        - maxMemory
+        - codeLength
+        - judgeStatus
+    SubmissionSummaries:
+      title: SubmissionSummaries
+      description: 提出一覧
+      type: object
+      properties:
+        total:
+          type: integer
+        problems:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionSummary'
+    Submission:
+      title: Submission
+      type: object
+      description: 提出の詳細
+      properties:
+        id:
+          type: string
+          description: 提出ID
+        userId:
+          type: integer
+          description: 提出ユーザーID
+        userName:
+          type: string
+        problemId:
+          type: integer
+          description: 問題ID
+        submittedAt:
+          type: string
+          format: date-time
+          description: 提出日時
+        languageId:
+          type: integer
+          description: 提出コードの言語ID
+        totalScore:
+          type: integer
+          description: スコアの合計
+        maxTime:
+          type: integer
+          description: 実行時間の最大値 (ms)
+        maxMemory:
+          type: number
+          description: メモリ使用量の最大値 (MiB)
+        codeLength:
+          type: number
+        overallJudgeStatus:
+          $ref: '#/components/schemas/JudgeStatus'
+        judgeResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/JudgeResult'
+      required:
+        - id
+        - userId
+        - userName
+        - problemId
+        - submittedAt
+        - languageId
+        - totalScore
+        - maxTime
+        - maxMemory
+    PostSubmissionRequest:
+      title: PostProblemRequest
+      type: object
+      description: 回答の提出リクエスト
+      properties:
+        languageId:
+          type: integer
+          description: 提出コードの言語ID
+        source:
+          type: string
+          description: ソースコード
+    EditorialSummary:
+      title: EditorialSummary
+      description: 解説
+      type: object
+      properties:
+        id:
+          description: 解説ID
+          type: integer
+        createdAt:
+          description: 作成日時
+          type: string
+          format: date-time
+        updatedAt:
+          description: 更新日時
+          type: string
+          format: date-time
+        authorId:
+          description: 投稿者のユーザーID
+          type: integer
+        isPublic:
+          description: |-
+            解説が全体公開かどうか.
+
+            * `true` - 公開
+            * `false` - 非公開 (問題の作者のみ閲覧可)
+          type: boolean
+    EditorialSummaries:
+      title: EditorialSummaries
+      description: 解説一覧
+      type: array
+      items:
+        $ref: '#/components/schemas/EditorialSummary'
+    Editorial:
+      title: Editorial
+      description: 解説の詳細
+      type: object
+      properties:
+        id:
+          description: 解説ID
+          type: integer
+        createdAt:
+          description: 作成日時
+          type: string
+          format: date-time
+        updatedAt:
+          description: 更新日時
+          type: string
+          format: date-time
+        authorId:
+          description: 投稿者のユーザーID
+          type: integer
+        statement:
+          description: 解説本文 (HTML)
+          type: string
+        isPublic:
+          description: |-
+            解説が全体公開かどうか.
+
+            * `true` - 公開
+            * `false` - 非公開 (問題の作者のみ閲覧可)
+          type: boolean
+      required:
+        - id
+        - createdAt
+        - authorId
+        - statement
+        - isPublic
+    PostEditorialRequest:
+      title: PostEditorialRequest
+      description: 解説の作成リクエスト
+      type: object
+      properties:
+        statement:
+          description: 解説本文 (HTML)
+          type: string
+        isPublic:
+          description: |-
+            解説が全体公開かどうか.
+
+            * `true` - 公開
+            * `false` - 非公開 (問題の作者のみ閲覧可)
+          type: boolean
+      required:
+        - statement
+        - isPublic
+    PutEditorialRequest:
+      title: PutEditorialRequest
+      description: 解説の変更リクエスト.
+      type: object
+      properties:
+        statement:
+          description: 解説本文 (HTML)
+          type: string
+        isPublic:
+          description: 公開されているかどうか
+          type: boolean
+    Signup:
+      title: Signup
+      type: object
+      description: email+password登録
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+        token:
+          type: string
+      required:
+        - userName
+        - password
+        - token
+    SignupRequest:
+      title: SignupRequest
+      type: object
+      description: Signupのリクエスト
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    Email:
+      title: Email
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    UserEmailAndPassword:
+      title: UserEmailAndPassword
+      type: object
+      description: login
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+    ResetPasswordRequest:
+      title: ResetPasswordRequest
+      type: object
+      properties:
+        password:
+          type: string
+        token:
+          type: string
+      required:
+        - password
+        - token
+      description: ''
+    JudgeStatus:
+      title: JudgeStatus
+      description: |-
+        ジャッジの状態
+
+        * `AC` - 正解
+        * `WA` - 不正解
+        * `CE` - コンパイルエラー
+        * `IE` - 内部エラー
+        * `MLE` - メモリ制限超過
+        * `RE` - 実行時エラー
+        * `TLE` - 実行時間超過
+        * `WJ` - ジャッジ待ち
+      type: string
+      enum:
+        - AC
+        - WA
+        - CE
+        - IE
+        - MLE
+        - RE
+        - TLE
+        - WJ
+    JudgeResult:
+      title: JudgeResult
+      type: object
+      description: ジャッジ結果
+      properties:
+        testcaseId:
+          type: string
+        testcaseName:
+          type: string
+        judgeStatus:
+          $ref: '#/components/schemas/JudgeStatus'
+        score:
+          type: integer
+        time:
+          type: integer
+        memory:
+          type: number
+      required:
+        - testcaseId
+        - judgeStatus
+        - score
+        - time
+        - memory
+    Role:
+      title: Role
+      description: |-
+        ユーザの役割
+
+        * `Admin` - Admin
+        * `traPUser` - AdminでないtraP部員
+        * `CommonUser` - Adminでない一般ユーザー(traP部員以外のユーザー)
+      type: string
+      enum:
+        - Admin
+        - traPUser
+        - CommonUser
+    Testcase:
+      title: Testcase
+      type: object
+      description: テストケース
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        testInput:
+          type: string
+        testOutput:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+        - id
+        - testInput
+        - testOutput
+        - createdAt
+        - updatedAt
+    PostTestcaseRequest:
+      title: PostTestcasesRequest
+      type: array
+      description: テストケースの投稿
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          testInput:
+            type: string
+          testOutput:
+            type: string
+        required:
+          - name
+          - testInput
+          - testOutput
+    PutTestcaseRequest:
+      title: PutTestcaseRequest
+      type: object
+      description: 単体のテストケースの編集
+      properties:
+        name:
+          type: string
+        testInput:
+          type: string
+        testOutput:
+          type: string
+      required:
+        - name
+        - testInput
+        - testOutput
+    TestcaseSummary:
+      title: TestcaseSummary
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    TestcaseSummaries:
+      title: TestcaseSummaries
+      type: object
+      properties:
+        testcaseSummaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestcaseSummary'
+    Language:
+      title: Language
+      type: object
+      description: プログラミング言語についての情報
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+  parameters:
+    problemIdInPath:
+      name: problemId
+      in: path
+      description: 問題ID
+      required: true
+      schema:
+        type: string
+    problemsOrderByInQuery:
+      name: orderBy
+      in: query
+      description: |-
+        問題一覧の並び替え
+
+        `Asc` は昇順, `Desc` は降順を示す.
+
+        * `createdAtAsc` - 提出日時の昇順
+        * `createdAtDesc` - 提出日時の降順
+        * `updatedAtAsc` - 更新日時の昇順
+        * `updatedAtDesc` - 更新日時の降順
+        * `difficultyAsc` - 難易度の昇順
+        * `difficultyDesc` - 難易度の降順
+      required: false
+      schema:
+        type: string
+        default: createdAtDesc
+        enum:
+          - createdAtAsc
+          - createdAtDesc
+          - updatedAtAsc
+          - updatedAtDesc
+          - difficultyAsc
+          - difficultyDesc
+    submissionIdInPath:
+      name: submissionId
+      in: path
+      description: 提出ID
+      required: true
+      schema:
+        type: number
+    submissionsOrderByInQuery:
+      name: orderBy
+      in: query
+      description: |-
+        提出一覧の並び替え
+
+        `Asc` は昇順, `Desc` は降順を示す.
+
+        * `submittedAtAsc` - 提出日時（昇順）
+        * `submittedAtDesc` - 提出日時（降順）
+        * `timeConsumptionAsc` - 実行時間（昇順）
+        * `timeConsumptionDesc` - 実行時間（降順）
+        * `scoreAsc` - スコア（昇順）
+        * `scoreDesc` - スコア（降順）
+        * `memoryConsumptionAsc` - メモリ量（昇順）
+        * `memoryConsumptionDesc` - メモリ量（降順）
+        * `codeLengthAsc` - コード長（昇順）
+        * `codeLengthDesc` - コード長（降順）
+      schema:
+        type: string
+        default: submittedAtDesc
+        enum:
+          - submittedAtAsc
+          - submittedAtDesc
+          - timeConsumptionAsc
+          - timeConsumptionDesc
+          - scoreAsc
+          - scoreDesc
+          - memoryConsumptionAsc
+          - memoryConsumptionDesc
+          - codeLengthAsc
+          - codeLengthDesc
+    limitInQuery:
+      name: limit
+      in: query
+      description: 取得数の上限
+      required: false
+      schema:
+        type: integer
+        maximum: 100
+        minimum: 0
+    offsetInQuery:
+      name: offset
+      in: query
+      description: 取得の開始位置
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+    judgeStatusInQuery:
+      name: status
+      in: query
+      description: ジャッジ結果
+      required: false
+      schema:
+        $ref: '#/components/schemas/JudgeStatus'
+    codeLanguageInQuery:
+      name: language
+      in: query
+      description: ソースコードの言語
+      required: false
+      schema:
+        type: string
+    userNameInQuery:
+      name: username
+      in: query
+      description: ユーザー名
+      schema:
+        type: string
+    userIdInQuery:
+      name: userId
+      in: query
+      description: ユーザーID
+      schema:
+        type: string
+    userIdInPath:
+      name: userId
+      in: path
+      description: ユーザーID
+      required: true
+      schema:
+        type: string
+    editorialIdInPath:
+      name: editorialId
+      in: path
+      description: 解説ID
+      required: true
+      schema:
+        type: string
+    JWTWithUserId:
+      name: token-with-userid
+      in: query
+      required: false
+      schema:
+        type: string
+      description: |-
+        パスワードリセットまたはメールアドレス変更の際に使われるJWT。
+        次のフィールドを持つ:
+        - `exp` (int): トークンの有効期限（UNIXタイムスタンプ）。
+        - `iat` (int): トークンが発行された時刻（UNIXタイムスタンプ）。
+        - `nbf` (int): トークンが有効となる最早時刻（UNIXタイムスタンプ）。
+        - `userId` (string): ユーザーのID。
+        - `email` (string): ユーザーのメールアドレス。
+        - `action` (string): トークンのアクションタイプ。`reset_password`または`change_email`。
+    JWTWithoutUserId:
+      name: token-without-userid
+      in: query
+      required: false
+      schema:
+        type: string
+      description: |-
+        初回のユーザー登録(メールアドレスの登録)の際に使われるJWT。
+        次のフィールドを持つ:
+        - `exp` (int): トークンの有効期限（UNIXタイムスタンプ）。
+        - `iat` (int): トークンが発行された時刻（UNIXタイムスタンプ）。
+        - `nbf` (int): トークンが有効となる最早時刻（UNIXタイムスタンプ）。
+        - `email` (string): ユーザーのメールアドレス。
+        - `action` (string): トークンのアクションタイプ。`register_email`。
+    testcaseIdInPath:
+      name: testcaseId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: テストケースID
+    problemIdInQuery:
+      name: problemIdInQuery
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 問題のID
