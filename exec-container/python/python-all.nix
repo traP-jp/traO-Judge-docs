@@ -1,10 +1,13 @@
 {
-  pkgs, bin_flatten_drv, bin_link_drv, ...
+  pkgs, filter, ...
 }: let
-  python311drv = import ./python-3-11.nix { inherit pkgs; inherit bin_link_drv; };
-  python312drv = import ./python-3-12.nix { inherit pkgs; inherit bin_link_drv; };
+  python311 = import ./python-3-11.nix { inherit pkgs; inherit filter; };
+  python312 = import ./python-3-12.nix { inherit pkgs; inherit filter; };
 in
-  bin_flatten_drv {
-    pkgs = pkgs;
-    drvs = [ python311drv python312drv ];
+  pkgs.symlinkJoin {
+    name = "python-all";
+    paths = [
+      python311
+      python312
+    ];
   }
