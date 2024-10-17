@@ -1,14 +1,14 @@
-openapi: '3.0.3'
+openapi: "3.0.3"
 info:
   title: Judge to Backend API
-  version: '0.1'
+  version: "0.1"
   license:
     name: MIT
-    url: 'https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE'
+    url: "https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE"
 servers:
   - url: https://api.server.test/v1
 paths:
-  '/judge':
+  "/judge":
     post:
       operationId: judge
       description: 全てのジャッジ
@@ -18,13 +18,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Judge'
+              $ref: "#/components/schemas/Judge"
         required: true
       summary: 全てのジャッジ
       responses:
-        '200':
+        "200":
           description: OK
+        "400":
+          description: Bad Request
+      security:
+        - bearerAuth: []
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Execution:
       title: Execution
@@ -116,21 +125,21 @@ components:
           description: テストケースの数
           example: 3
         beforeTestExecs:
-          $ref: '#/components/schemas/Execution'
+          $ref: "#/components/schemas/Execution"
         onTestExecs:
-          $ref: '#/components/schemas/Execution'
+          $ref: "#/components/schemas/Execution"
         afterTestExecs:
-          $ref: '#/components/schemas/Execution'
+          $ref: "#/components/schemas/Execution"
         beforeTestConfigMap:
-          $ref: '#/components/schemas/ExecutionConfigMap'
+          $ref: "#/components/schemas/ExecutionConfigMap"
         onTestConfigMaps:
           title: onTestConfigMaps
           type: array
           description: テストケース実行時に実行されるコマンドの設定
           items:
-            $ref: '#/components/schemas/ExecutionConfigMap'
+            $ref: "#/components/schemas/ExecutionConfigMap"
         afterTestConfigMap:
-          $ref: '#/components/schemas/ExecutionConfigMap'
+          $ref: "#/components/schemas/ExecutionConfigMap"
       required:
         - judgeId
         - testCount

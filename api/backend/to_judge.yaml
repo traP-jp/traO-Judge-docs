@@ -1,14 +1,14 @@
-openapi: '3.0.3'
+openapi: "3.0.3"
 info:
   title: Backend to Judge API
-  version: '0.1'
+  version: "0.1"
   license:
     name: MIT
-    url: 'https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE'
+    url: "https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE"
 servers:
   - url: https://api.server.test/v1
 paths:
-  '/submit-result':
+  "/submit-result":
     post:
       operationId: submitResult
       description: ジャッジ結果
@@ -18,14 +18,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SubmitResult'
+              $ref: "#/components/schemas/SubmitResult"
         required: true
       summary: 通常のテストケースのジャッジ
       responses:
-        '200':
+        "200":
           description: OK
-        
+        '400':
+          description: Bad Request
+      security:
+        - bearerAuth: []
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     JudgeStatus:
       title: JudgeStatus
@@ -47,12 +56,12 @@ components:
       properties:
         status:
           title: status
-          $ref: '#/components/schemas/JudgeStatus'
+          $ref: "#/components/schemas/JudgeStatus"
         text:
           title: text
           type: string
           description: 追加情報
-          example: 'Alice win'
+          example: "Alice win"
         score:
           title: score
           type: number
@@ -89,10 +98,10 @@ components:
           type: array
           description: テストケースのリスト
           items:
-            $ref: '#/components/schemas/TestResult'
+            $ref: "#/components/schemas/TestResult"
         totalResult:
           title: totalResult
-          $ref: '#/components/schemas/TestResult'
+          $ref: "#/components/schemas/TestResult"
       required:
         - judgeId
         - testResults
