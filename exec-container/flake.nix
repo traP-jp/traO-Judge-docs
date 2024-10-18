@@ -4,24 +4,26 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    nix-filter.url = "github:numtide/nix-filter";
   };
 
-  outputs = { nixpkgs, flake-utils,... }:
+  outputs = { nixpkgs, flake-utils, nix-filter,... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        bin_flatten_drv = import ./utils/bin_flatten.nix { inherit pkgs; };
-        bin_link_drv = import ./utils/bin_link.nix { inherit pkgs; };
-        python_drv = import ./python/python-all.nix {
+        filter = nix-filter.lib;
+        python-all = import ./python/python-all.nix {
           inherit pkgs;
-          inherit bin_flatten_drv;
-          inherit bin_link_drv;
+          inherit filter;
         };
       in
       {
         packages = {
-          default = bin_flatten_drv {
-            drvs = [ python_drv ];
+          default = pkgs.symlinkJoin {
+            name = "default-all";
+            paths = [
+              python-all
+            ];
           };
         };
       }
