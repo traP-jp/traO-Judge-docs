@@ -16,4 +16,4 @@
       scikit-learn
     ]);
 in
-  pkgs.writeShellScriptBin "python3.11" "${myPython}/bin/python"
+  pkgs.writeShellScriptBin "python3.11" "exec ${myPython}/bin/python $@"
