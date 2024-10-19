@@ -1,31 +1,18 @@
 {
-  description = "A very basic flake";
-
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    nix-filter.url = "github:numtide/nix-filter";
   };
 
-  outputs = { nixpkgs, flake-utils, nix-filter,... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        filter = nix-filter.lib;
-        python-all = import ./python/python-all.nix {
-          inherit pkgs;
-          inherit filter;
-        };
-      in
-      {
-        packages = {
-          default = pkgs.symlinkJoin {
-            name = "default-all";
-            paths = [
-              python-all
-            ];
-          };
-        };
-      }
-    );
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      packages.default = import ./docker-image.nix {inherit pkgs;};
+      formatter = pkgs.alejandra;
+    });
 }
