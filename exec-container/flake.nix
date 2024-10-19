@@ -16,6 +16,10 @@
           inherit pkgs;
           inherit filter;
         };
+        golang = import ./golang/golang.nix {
+          inherit pkgs;
+          inherit filter;
+        };
       in
       {
         packages = {
@@ -23,6 +27,7 @@
             name = "default-all";
             paths = [
               python-all
+              golang
             ];
           };
         };
