@@ -35,10 +35,10 @@ in
       )
 
       replace (
-          github.com/emirpasic/gods => ${gods} v1.18.1
-          github.com/gonum/gonum => ${gonum} v0.15.1
-          github.com/liyue201/gostl => ${gostl} v1.2.0
-          golang.org/x/exp => ${golang-org-x-exp} v0.0.0-20241009180824-f66d83c29e7c
+          github.com/emirpasic/gods => ${gods}
+          github.com/gonum/gonum => ${gonum}
+          github.com/liyue201/gostl => ${gostl}
+          golang.org/x/exp => ${golang-org-x-exp}
       )
       ' > $out/misc/go/go.mod
     '';
