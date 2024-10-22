@@ -5,5 +5,5 @@ in
   pkgs.dockerTools.buildImage {
     name = "exec-container";
 
-    copyToRoot = interpreters.all ++ compilers.all ++ [pkgs.bash pkgs.coreutils];
+    copyToRoot = interpreters.all ++ compilers.all;
   }
