@@ -18,6 +18,74 @@
         "type": "github"
       }
     },
+    "gods": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1650305728,
+        "narHash": "sha256-hGDKddjLj+5dn2woHtXKUdd49/3xdsqnhx7VEdCu1m4=",
+        "owner": "emirpasic",
+        "repo": "gods",
+        "rev": "dbdbadc158ae6b453820b3cfb8c6cb48be4d7ddf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emirpasic",
+        "ref": "v1.18.1",
+        "repo": "gods",
+        "type": "github"
+      }
+    },
+    "golang-org-exp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1728068964,
+        "narHash": "sha256-TC6wxpT0t9ohyDclUSPq7MeZ/QWDMqe+VZCVwETa0oM=",
+        "owner": "golang",
+        "repo": "exp",
+        "rev": "225e2abe05e664228e7afb6bf5b97a25d56ba575",
+        "type": "github"
+      },
+      "original": {
+        "owner": "golang",
+        "repo": "exp",
+        "rev": "225e2abe05e664228e7afb6bf5b97a25d56ba575",
+        "type": "github"
+      }
+    },
+    "gonum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723849878,
+        "narHash": "sha256-d0/xeCjn9oCBaI8xdM9NGdQ/7M3KmhInoUhSb7fSWAA=",
+        "owner": "gonum",
+        "repo": "gonum",
+        "rev": "bdcda9a453049449163d160b98285b64ec8093a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gonum",
+        "ref": "v0.15.1",
+        "repo": "gonum",
+        "type": "github"
+      }
+    },
+    "gostl": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681890709,
+        "narHash": "sha256-o832U300L5IqlaO7kb5fQzC8V1CuynBbEDk+FdKBv7c=",
+        "owner": "liyue201",
+        "repo": "gostl",
+        "rev": "98dc0eb1ce1063cf860342e7e890760fcb711e3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "liyue201",
+        "ref": "v1.2.0",
+        "repo": "gostl",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1729265718,
@@ -37,6 +105,10 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "gods": "gods",
+        "golang-org-exp": "golang-org-exp",
+        "gonum": "gonum",
+        "gostl": "gostl",
         "nixpkgs": "nixpkgs"
       }
     },
