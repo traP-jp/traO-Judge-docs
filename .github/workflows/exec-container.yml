@@ -17,3 +17,5 @@ jobs:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix build ./exec-container/flake.nix
     - run: nix flake check ./exec-container/flake.nix
+    - run: nix fmt && git diff-index --quiet HEAD
+  
