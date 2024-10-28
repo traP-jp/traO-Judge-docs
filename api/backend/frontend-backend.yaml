@@ -1420,14 +1420,14 @@ components:
       description: |-
         ユーザの役割
 
-        * `Admin` - Admin
-        * `traPUser` - AdminでないtraP部員
-        * `CommonUser` - Adminでない一般ユーザー(traP部員以外のユーザー)
+        * `admin` - admin
+        * `traPUser` - adminでないtraP部員
+        * `commonUser` - adminでない一般ユーザー(traP部員以外のユーザー)
       type: string
       enum:
-        - Admin
+        - admin
         - traPUser
-        - CommonUser
+        - commonUser
     Testcase:
       title: Testcase
       type: object
