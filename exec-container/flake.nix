@@ -42,7 +42,19 @@
         ];
       };
     in {
-      packages.default = import ./docker-image.nix {inherit pkgs;};
+      packages.default = let
+        interpreters = import ./interpreters {inherit pkgs;};
+        compilers = import ./compilers {inherit pkgs;};
+        tools = import ./tools {inherit pkgs;};
+      in
+        pkgs.symlinkJoin {
+          name = "exec-container-env";
+          paths = [
+            interpreters.all
+            compilers.all
+            tools.all
+          ];
+        };
       formatter = pkgs.alejandra;
     });
 }
