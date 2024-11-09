@@ -11,11 +11,11 @@
     flake-utils,
     container-env,
     ...
-  }: 
-    flake-utils.lib.eachDefaultSystem (system: let 
-      pkgs = import nixpkgs { inherit system; };
-    in
-      {
+  }:
+    flake-utils.lib.eachDefaultSystem (
+      system: let
+        pkgs = import nixpkgs {inherit system;};
+      in {
         packages.default = pkgs.dockerTools.buildImage {
           name = "exec-container";
           copyToRoot = [
