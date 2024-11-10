@@ -42,7 +42,27 @@
         ];
       };
     in {
-      packages.default = import ./docker-image.nix {inherit pkgs;};
+      packages = {
+        environment = let
+          interpreters = import ./interpreters {inherit pkgs;};
+          compilers = import ./compilers {inherit pkgs;};
+          tools = import ./tools {inherit pkgs;};
+        in
+          pkgs.symlinkJoin {
+            name = "exec-container-enviroment";
+            paths = [
+              interpreters.all
+              compilers.all
+              tools.all
+            ];
+          };
+        default = pkgs.dockerTools.buildImage {
+          name = "exec-container";
+          copyToRoot = [
+            self.packages.${system}.environment
+          ];
+        };
+      };
       formatter = pkgs.alejandra;
     });
 }
