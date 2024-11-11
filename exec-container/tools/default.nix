@@ -1,5 +1,0 @@
-{pkgs}: {
-  all = [
-    pkgs.coreutils
-  ];
-}

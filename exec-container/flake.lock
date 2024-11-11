@@ -86,6 +86,130 @@
         "type": "github"
       }
     },
+    "myBash": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-U1lenf44faGuRpVE9q61q1p1u+eeK+lovlS3eSpYq8I=",
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/bash",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/bash",
+        "type": "path"
+      }
+    },
+    "myBrainfuck": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-LrhLrMdB7VSaBkd9zbft8jDI8mr1bnGFmvXq41m0W+U=",
+        "path": "/nix/store/7j0lvj50ashm51fn205c4kw7r8dhjgzv-source/brainfuck",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/7j0lvj50ashm51fn205c4kw7r8dhjgzv-source/brainfuck",
+        "type": "path"
+      }
+    },
+    "myCompilers": {
+      "inputs": {
+        "myBrainfuck": "myBrainfuck",
+        "myGolang": "myGolang"
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-ri9SvFKhToGOEsSSfk2K25OTRGd2ndeo6Iha4VlejPI=",
+        "path": "/nix/store/r2jgkxkc7cahzg3d12vv8zvapdsawlv8-source/exec-container/compilers",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/r2jgkxkc7cahzg3d12vv8zvapdsawlv8-source/exec-container/compilers",
+        "type": "path"
+      }
+    },
+    "myGolang": {
+      "inputs": {
+        "gods": "gods",
+        "golang-org-exp": "golang-org-exp",
+        "gonum": "gonum",
+        "gostl": "gostl"
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-PXDB/7T3XgtEJe0luz8/LJB6s0jU/UR61kzdPAqxeMo=",
+        "path": "/nix/store/7j0lvj50ashm51fn205c4kw7r8dhjgzv-source/golang",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/7j0lvj50ashm51fn205c4kw7r8dhjgzv-source/golang",
+        "type": "path"
+      }
+    },
+    "myInterpreters": {
+      "inputs": {
+        "myBash": "myBash",
+        "myPython311": "myPython311",
+        "myPython312": "myPython312",
+        "mySed": "mySed"
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-7bA5P3/x6Ogh/wY5RsRhETtTAvXYpRy3axptjVsjBuQ=",
+        "path": "/nix/store/r2jgkxkc7cahzg3d12vv8zvapdsawlv8-source/exec-container/interpreters",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/r2jgkxkc7cahzg3d12vv8zvapdsawlv8-source/exec-container/interpreters",
+        "type": "path"
+      }
+    },
+    "myPython311": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-U4NVoCuLoowKLrCLdKagR8LkYHrCzx2q3OsAFB5FqBI=",
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/python/3.11",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/python/3.11",
+        "type": "path"
+      }
+    },
+    "myPython312": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-dRcPrcpjJsfGtsVPunP7B9xp0GBBOLKLyqsQSCQi+JI=",
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/python/3.12",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/python/3.12",
+        "type": "path"
+      }
+    },
+    "mySed": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-0/SLq0+ZnC8jzT8AXDb6OHAcNxnV1qTOkU4TPSIBcg4=",
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/sed",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/nvd2bl5svk188va0i0kc89z28h355h2r-source/sed",
+        "type": "path"
+      }
+    },
+    "myTools": {
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-lNgurmKyenpFC89HsLQAfqKMRUf3IL9xPRZOlPGHHm0=",
+        "path": "/nix/store/r2jgkxkc7cahzg3d12vv8zvapdsawlv8-source/exec-container/tools",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/r2jgkxkc7cahzg3d12vv8zvapdsawlv8-source/exec-container/tools",
+        "type": "path"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1729265718,
@@ -105,10 +229,9 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "gods": "gods",
-        "golang-org-exp": "golang-org-exp",
-        "gonum": "gonum",
-        "gostl": "gostl",
+        "myCompilers": "myCompilers",
+        "myInterpreters": "myInterpreters",
+        "myTools": "myTools",
         "nixpkgs": "nixpkgs"
       }
     },
