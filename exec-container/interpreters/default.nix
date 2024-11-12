@@ -6,6 +6,7 @@ in {
   all = [
     python.python311
     python.python312
+    python.python312-quantum
     bash
     sed
   ];
