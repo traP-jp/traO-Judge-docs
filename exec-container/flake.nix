@@ -47,6 +47,7 @@
           interpreters = import ./interpreters {inherit pkgs;};
           compilers = import ./compilers {inherit pkgs;};
           tools = import ./tools {inherit pkgs;};
+          misc = import ./misc {inherit pkgs;};
         in
           pkgs.symlinkJoin {
             name = "exec-container-enviroment";
@@ -54,6 +55,7 @@
               interpreters.all
               compilers.all
               tools.all
+              misc.all
             ];
           };
         default = pkgs.dockerTools.buildImage {
