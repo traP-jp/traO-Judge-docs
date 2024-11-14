@@ -2,6 +2,15 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    pyproject-nix = {
+      url = "github:nix-community/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    uv2nix = {
+      url = "github:adisbladis/uv2nix";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     gods = {
       url = "github:emirpasic/gods/v1.18.1";
       flake = false;
@@ -25,6 +34,8 @@
     self,
     nixpkgs,
     flake-utils,
+    uv2nix,
+    pyproject-nix,
     gods,
     gonum,
     gostl,
@@ -38,6 +49,9 @@
             myGoLibraries = {
               inherit gods gonum gostl golang-org-exp;
             };
+          })
+          (final: prev: {
+            inherit uv2nix pyproject-nix;
           })
         ];
       };
