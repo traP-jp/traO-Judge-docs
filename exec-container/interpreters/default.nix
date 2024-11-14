@@ -2,6 +2,7 @@
   python = import ./python {inherit pkgs;};
   bash = import ./bash {inherit pkgs;};
   sed = import ./sed {inherit pkgs;};
+  node = import ./node {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -9,5 +10,6 @@ in {
     python.python312-quantum
     bash
     sed
+    node
   ];
 }
