@@ -28,6 +28,10 @@
       url = "github:golang/exp/225e2abe05e664228e7afb6bf5b97a25d56ba575";
       flake = false;
     };
+    seed7-source = {
+      url = "github:ThomasMertes/seed7";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -40,6 +44,7 @@
     gonum,
     gostl,
     golang-org-exp,
+    seed7-source,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
@@ -52,6 +57,9 @@
           })
           (final: prev: {
             inherit uv2nix pyproject-nix;
+          })
+          (final: prev: {
+            inherit seed7-source;
           })
         ];
       };

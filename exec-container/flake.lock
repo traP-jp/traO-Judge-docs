@@ -131,7 +131,24 @@
         "gostl": "gostl",
         "nixpkgs": "nixpkgs",
         "pyproject-nix": "pyproject-nix",
+        "seed7-source": "seed7-source",
         "uv2nix": "uv2nix"
+      }
+    },
+    "seed7-source": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731511169,
+        "narHash": "sha256-p37TxI8Ihutx9V1Jow4DnD/9NOlSZjPFBiPA4AEUyX8=",
+        "owner": "ThomasMertes",
+        "repo": "seed7",
+        "rev": "d1819d0a21828dba9d19b2e2546a3accaaf39b65",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ThomasMertes",
+        "repo": "seed7",
+        "type": "github"
       }
     },
     "systems": {

@@ -3,6 +3,7 @@
   bash = import ./bash {inherit pkgs;};
   sed = import ./sed {inherit pkgs;};
   node = import ./node {inherit pkgs;};
+  seed7 = import ./seed7 {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -11,5 +12,6 @@ in {
     bash
     sed
     node
+    seed7
   ];
 }
