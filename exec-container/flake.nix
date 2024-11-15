@@ -32,6 +32,10 @@
       url = "github:ThomasMertes/seed7";
       flake = false;
     };
+    nibbles-source = {
+      url = "http://golfscript.com/nibbles/nibbles-latest.tgz";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -45,6 +49,7 @@
     gostl,
     golang-org-exp,
     seed7-source,
+    nibbles-source,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
@@ -59,7 +64,7 @@
             inherit uv2nix pyproject-nix;
           })
           (final: prev: {
-            inherit seed7-source;
+            inherit seed7-source nibbles-source;
           })
         ];
       };
