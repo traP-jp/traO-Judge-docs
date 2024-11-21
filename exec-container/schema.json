@@ -1,0 +1,57 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Example Schema",
+    "type": "object",
+    "properties": {
+        "library": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "examples": ["boost"]
+                },
+                "version": {
+                    "type": "string",
+                    "format": "version",
+                    "examples": ["1.0.0"]
+                }
+            },
+            "required": ["name", "version"]
+        },
+        "language": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "examples": ["C++(gcc)"]
+                },
+                "binName": {
+                    "type": "string",
+                    "examples": ["g++"]
+                },
+                "compile": {
+                    "type": "string",
+                    "examples": ["g++ -o $dest/main $src"]
+                },
+                "run": {
+                    "type": "string",
+                    "examples": ["$dest/main"]
+                },
+                "libraries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/properties/library"
+                    }
+                }
+            },
+            "required": ["name", "binName", "compile", "run"]
+        },
+        "languages": {
+            "type": "array",
+            "items": {
+                "$ref": "#/properties/language"
+            }
+        }
+    },
+    "required": ["languages"]
+}
