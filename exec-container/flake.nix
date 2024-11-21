@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    toj-helper.url = "github:traP-jp/traO-Judge-helper";
     pyproject-nix = {
       url = "github:nix-community/pyproject.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,6 +39,7 @@
     self,
     nixpkgs,
     flake-utils,
+    toj-helper,
     uv2nix,
     pyproject-nix,
     gods,
@@ -60,6 +62,9 @@
           })
           (final: prev: {
             inherit seed7-source;
+          })
+          (final: prev: {
+            toj-helper = toj-helper.packages.${system}.default;
           })
         ];
       };
