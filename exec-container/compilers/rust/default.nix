@@ -1,11 +1,10 @@
-{pkgs, ...}: 
-let
+{pkgs, ...}: let
   cargo = pkgs.cargo;
   vendor = pkgs.rustPlatform.fetchCargoTarball {
     src = ./.;
     hash = "sha256-QVNROkDMBhk7WHeDFYO+x7k/nI3UtESeGueSjRCOZZU=";
   };
-in 
+in
   pkgs.stdenv.mkDerivation {
     name = "rust";
     src = vendor;
