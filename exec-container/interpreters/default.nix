@@ -5,6 +5,7 @@
   node = import ./node {inherit pkgs;};
   seed7 = import ./seed7 {inherit pkgs;};
   pwsh = import ./powershell {inherit pkgs;};
+  sagemath = import ./sagemath {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -15,5 +16,6 @@ in {
     node
     seed7
     pwsh
+    sagemath
   ];
 }
