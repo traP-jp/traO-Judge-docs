@@ -5,7 +5,12 @@
   node = import ./node {inherit pkgs;};
   seed7 = import ./seed7 {inherit pkgs;};
   pwsh = import ./powershell {inherit pkgs;};
+<<<<<<< HEAD
   sagemath = import ./sagemath {inherit pkgs;};
+=======
+  awk = import ./awk {inherit pkgs;};
+  whitespace = import ./whitespace {inherit pkgs;};
+>>>>>>> origin/develop
 in {
   all = [
     python.python311
@@ -16,6 +21,11 @@ in {
     node
     seed7
     pwsh
+<<<<<<< HEAD
     sagemath
+=======
+    awk
+    whitespace
+>>>>>>> origin/develop
   ];
 }

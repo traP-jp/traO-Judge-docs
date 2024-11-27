@@ -1,0 +1,14 @@
+[project]
+name = "traOJudge-whitespace"
+version = "0.1.0"
+description = "traOJudge judge environment(whitespace)"
+authors = [
+    { name = "traOJudge", email = "placeholder@example.com" }
+]
+dependencies = [
+    "whitespace==1.0.0b8"
+]
+requires-python = "==3.12"
+
+[tool.hatch.metadata]
+allow-direct-references = true

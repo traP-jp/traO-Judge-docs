@@ -165,12 +165,33 @@
         "gostl": "gostl",
         "nixpkgs": "nixpkgs",
         "pyproject-nix": "pyproject-nix",
+        "rust-overlay": "rust-overlay",
         "seed7-source": "seed7-source",
         "toj-helper": "toj-helper",
         "uv2nix": "uv2nix"
       }
     },
     "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1732156292,
+        "narHash": "sha256-XuTCME5ZausokOJ28AsIoayBVD1soscdoiKweT4VY50=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "2d484c7a0db32f2700e253160bcd2aaa6cdca3ba",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
       "inputs": {
         "nixpkgs": [
           "toj-helper",
@@ -241,7 +262,7 @@
       "inputs": {
         "flake-utils": "flake-utils_2",
         "nixpkgs": "nixpkgs_2",
-        "rust-overlay": "rust-overlay"
+        "rust-overlay": "rust-overlay_2"
       },
       "locked": {
         "lastModified": 1732193404,

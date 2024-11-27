@@ -12,6 +12,10 @@
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     gods = {
       url = "github:emirpasic/gods/v1.18.1";
       flake = false;
@@ -42,6 +46,7 @@
     toj-helper,
     uv2nix,
     pyproject-nix,
+    rust-overlay,
     gods,
     gonum,
     gostl,
@@ -60,6 +65,7 @@
           (final: prev: {
             inherit uv2nix pyproject-nix;
           })
+          rust-overlay.overlays.default
           (final: prev: {
             inherit seed7-source;
           })

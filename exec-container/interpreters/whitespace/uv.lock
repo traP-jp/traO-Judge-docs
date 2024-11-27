@@ -1,0 +1,22 @@
+version = 1
+requires-python = "==3.12"
+
+[[package]]
+name = "traojudge-whitespace"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "whitespace" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "whitespace", specifier = "==1.0.0b8" }]
+
+[[package]]
+name = "whitespace"
+version = "1.0.0b8"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0e/db/4addd92b7f4b24673447073c5bd7c5fb288eed27f3e66d03609f5a498f56/whitespace-1.0.0b8.tar.gz", hash = "sha256:747026deeb65ae3badd2d63460a0e959f811dda9588a5863f7db44a0e6e23df0", size = 9093 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6e/f1/ff7bcbb627aede26cc5cd8d83a835310e297b1826279544c0ceeaa707af6/whitespace-1.0.0b8-py3-none-any.whl", hash = "sha256:28120de2acef077afd855e5b8d36b022ebbf5755247454a3f8fc48901631e767", size = 10383 },
+]
