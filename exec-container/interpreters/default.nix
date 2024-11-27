@@ -6,6 +6,7 @@
   seed7 = import ./seed7 {inherit pkgs;};
   pwsh = import ./powershell {inherit pkgs;};
   awk = import ./awk {inherit pkgs;};
+  whitespace = import ./whitespace {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -17,5 +18,6 @@ in {
     seed7
     pwsh
     awk
+    whitespace
   ];
 }
