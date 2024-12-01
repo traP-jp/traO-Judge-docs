@@ -71,6 +71,7 @@
           })
           (final: prev: {
             toj-helper = toj-helper.packages.${system}.default;
+            toj-utils = import ./utils {inherit pkgs;};
           })
         ];
       };
