@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
-if ! command -v sbomnix &> /dev/null
-then
-    echo "sbomnix not found. Run \`nix profile install nixpkgs#sbomnix\` to install."
-    exit 1
+if type sbomnix &> /dev/null; then
+    sbomnix .#environment
+else
+    nix-shell -p sbomnix --run "sbomnix .#environment"
 fi
-
-sbomnix .#environment
 
 if grep -q "AGPL" sbom.spdx.json; then
     echo "Error: AGPL license found in sbom.spdx.json."
