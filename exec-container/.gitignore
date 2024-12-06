@@ -1,1 +1,5 @@
 result
+http_cache.sqlite
+sbom.cdx.json
+sbom.spdx.json
+sbom.csv
