@@ -8,6 +8,7 @@
   # sagemath = import ./sagemath {inherit pkgs;};
   awk = import ./awk {inherit pkgs;};
   whitespace = import ./whitespace {inherit pkgs;};
+  unison = import ./unison {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -21,5 +22,6 @@ in {
     # sagemath
     awk
     whitespace
+    unison
   ];
 }
