@@ -9,6 +9,7 @@
   awk = import ./awk {inherit pkgs;};
   whitespace = import ./whitespace {inherit pkgs;};
   unison = import ./unison {inherit pkgs;};
+  zsh = import ./zsh {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -23,5 +24,6 @@ in {
     awk
     whitespace
     unison
+    zsh
   ];
 }
