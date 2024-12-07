@@ -3,6 +3,7 @@
   brainfuck = import ./brainfuck {inherit pkgs;};
   rust = import ./rust {inherit pkgs;};
   koka = import ./koka {inherit pkgs;};
+  mercury = import ./mercury {inherit pkgs;};
   cobol = import ./cobol {inherit pkgs;};
 in {
   all = [
@@ -10,6 +11,7 @@ in {
     brainfuck
     rust
     koka
+    mercury
     cobol
   ];
 }
