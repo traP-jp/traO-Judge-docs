@@ -4,6 +4,7 @@
   rust = import ./rust {inherit pkgs;};
   koka = import ./koka {inherit pkgs;};
   cobol = import ./cobol {inherit pkgs;};
+  haxe = import ./haxe {inherit pkgs;};
 in {
   all = [
     golang
@@ -11,5 +12,6 @@ in {
     rust
     koka
     cobol
+    haxe
   ];
 }
