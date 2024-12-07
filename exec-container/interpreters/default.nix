@@ -10,6 +10,7 @@
   whitespace = import ./whitespace {inherit pkgs;};
   unison = import ./unison {inherit pkgs;};
   zsh = import ./zsh {inherit pkgs;};
+  r = import ./r {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -25,5 +26,6 @@ in {
     whitespace
     unison
     zsh
+    r
   ];
 }
