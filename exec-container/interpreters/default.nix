@@ -10,6 +10,7 @@
   whitespace = import ./whitespace {inherit pkgs;};
   unison = import ./unison {inherit pkgs;};
   zsh = import ./zsh {inherit pkgs;};
+  lua = import ./lua {inherit pkgs;};
   r = import ./r {inherit pkgs;};
 in {
   all = [
@@ -26,6 +27,7 @@ in {
     whitespace
     unison
     zsh
+    lua
     r
   ];
 }
