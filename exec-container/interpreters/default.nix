@@ -11,6 +11,7 @@
   unison = import ./unison {inherit pkgs;};
   zsh = import ./zsh {inherit pkgs;};
   lua = import ./lua {inherit pkgs;};
+  r = import ./r {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -27,5 +28,6 @@ in {
     unison
     zsh
     lua
+    r
   ];
 }
