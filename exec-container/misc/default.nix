@@ -1,5 +1,6 @@
 # Files which is not executables.
-{pkgs}: let
+{allpkgs}: let
+  pkgs = allpkgs.default;
   typescript = import ./typescript {inherit pkgs;};
 in {
   all = [
