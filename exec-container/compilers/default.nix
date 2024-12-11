@@ -1,4 +1,5 @@
-{pkgs}: let
+{allpkgs}: let
+  pkgs = allpkgs.default;
   golang = import ./golang {inherit pkgs;};
   brainfuck = import ./brainfuck {inherit pkgs;};
   rust = import ./rust {inherit pkgs;};

@@ -1,4 +1,5 @@
-{pkgs}: let
+{allpkgs}: let
+  pkgs = allpkgs.default;
   python = import ./python {inherit pkgs;};
   bash = import ./bash {inherit pkgs;};
   sed = import ./sed {inherit pkgs;};

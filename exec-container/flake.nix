@@ -1,6 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-2411.url = "github:NixOS/nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
     toj-helper.url = "github:traP-jp/traO-Judge-helper";
     pyproject-nix = {
@@ -39,9 +41,11 @@
     };
   };
 
-  outputs = {
+  outputs = flake-inputs @ {
     self,
     nixpkgs,
+    nixpkgs-2405,
+    nixpkgs-2411,
     flake-utils,
     toj-helper,
     uv2nix,
@@ -54,34 +58,15 @@
     seed7-source,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          (final: prev: {
-            myGoLibraries = {
-              inherit gods gonum gostl golang-org-exp;
-            };
-          })
-          (final: prev: {
-            inherit uv2nix pyproject-nix;
-          })
-          rust-overlay.overlays.default
-          (final: prev: {
-            inherit seed7-source;
-          })
-          (final: prev: {
-            toj-helper = toj-helper.packages.${system}.default;
-            toj-utils = import ./utils {inherit pkgs;};
-          })
-        ];
-      };
+      allpkgs = import ./allpkgs.nix {inherit flake-inputs system;};
+      pkgs = allpkgs.default;
     in {
       packages = {
         environment = let
-          interpreters = import ./interpreters {inherit pkgs;};
-          compilers = import ./compilers {inherit pkgs;};
-          tools = import ./tools {inherit pkgs;};
-          misc = import ./misc {inherit pkgs;};
+          interpreters = import ./interpreters {inherit allpkgs;};
+          compilers = import ./compilers {inherit allpkgs;};
+          tools = import ./tools {inherit allpkgs;};
+          misc = import ./misc {inherit allpkgs;};
         in
           pkgs.symlinkJoin {
             name = "exec-container-enviroment";
