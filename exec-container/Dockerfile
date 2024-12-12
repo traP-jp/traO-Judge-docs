@@ -15,4 +15,4 @@ RUN touch /result \
 VOLUME [ "/nix/store", "/result" ]
 
 # ビルド実行
-CMD [ "/workspace/build-in-docker.sh" ]
+CMD [ "/workspace/docker/build-in-docker.sh" ]
