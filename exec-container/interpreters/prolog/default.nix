@@ -1,4 +1,4 @@
 {pkgs, ...}: let
-    myProlog = pkgs.swi-prolog;
+  myProlog = pkgs.swi-prolog;
 in
-    pkgs.writeShellScriptBin "swipl" "exec ${myProlog}/bin/swipl $@"
+  pkgs.writeShellScriptBin "swipl" "exec ${myProlog}/bin/swipl $@"
