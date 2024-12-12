@@ -13,6 +13,7 @@
   zsh = import ./zsh {inherit pkgs;};
   lua = import ./lua {inherit pkgs;};
   r = import ./r {inherit pkgs;};
+  prolog = import ./prolog {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -30,5 +31,6 @@ in {
     zsh
     lua
     r
+    prolog
   ];
 }
