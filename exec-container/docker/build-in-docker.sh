@@ -1,7 +1,7 @@
 #!/root/.nix-profile/bin/bash
 
 # コンテナビルド
-if ! nix build --extra-experimental-features nix-command --extra-experimental-features flakes --option filter-syscalls false
+if ! nix build --extra-experimental-features nix-command --extra-experimental-features flakes
 then
   exit 1
 fi
