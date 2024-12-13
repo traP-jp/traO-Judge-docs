@@ -7,6 +7,7 @@
   mercury = import ./mercury {inherit pkgs;};
   cobol = import ./cobol {inherit pkgs;};
   haxe = import ./haxe {inherit pkgs;};
+  raku = import ./raku {pkgs = allpkgs.release2411;};
 in {
   all = [
     golang
@@ -16,5 +17,6 @@ in {
     mercury
     cobol
     haxe
+    raku
   ];
 }
