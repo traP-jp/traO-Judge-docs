@@ -33,4 +33,9 @@ in {
     r
     prolog
   ];
+  traojudge = [
+    python.python311.traojudge
+    python.python312.traojudge
+    python.python312-quantum.traojudge
+  ];
 }

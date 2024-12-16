@@ -83,7 +83,13 @@
             self.packages.${system}.environment
           ];
         };
+        languageSettings = let
+          interpreters = import ./interpreters {inherit allpkgs;};
+          jsonOutput = builtins.toJSON(interpreters.traojudge);
+        in
+          pkgs.writeText "traojudge.json" jsonOutput;
       };
+      
       formatter = pkgs.alejandra;
     });
 }

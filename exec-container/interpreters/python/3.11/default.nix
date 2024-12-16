@@ -17,3 +17,18 @@
     ]);
 in
   pkgs.writeShellScriptBin "python3.11" "exec ${myPython}/bin/python $@"
+  // {
+    traojudge = {
+      languages = [
+        {
+          name = "Python3.11";
+          binName = "python3.11";
+          compile = "cp \"$SRC\" \"$DIST\"";
+          run = "exec ${myPython}/bin/python \"$DIST\"";
+          #libraries = [
+          #  バージョンが指定されていないので書けない
+          #]
+        }
+      ];
+    };
+  }
