@@ -1230,7 +1230,7 @@ components:
           description: 更新日時
           type: string
           format: date-time
-        editorialId:
+        problemId:
           description: 問題ID
           type: integer
         authorId:
