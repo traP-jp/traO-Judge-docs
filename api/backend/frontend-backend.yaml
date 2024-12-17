@@ -1230,6 +1230,9 @@ components:
           description: 更新日時
           type: string
           format: date-time
+        problemId:
+          description: 問題ID
+          type: integer
         authorId:
           description: 投稿者のユーザーID
           type: integer
@@ -1262,6 +1265,9 @@ components:
           description: 更新日時
           type: string
           format: date-time
+        problemId:
+          description: 問題ID
+          type: integer
         authorId:
           description: 投稿者のユーザーID
           type: integer
@@ -1278,6 +1284,7 @@ components:
       required:
         - id
         - createdAt
+        - problemId
         - authorId
         - statement
         - isPublic
