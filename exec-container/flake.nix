@@ -85,9 +85,32 @@
         };
         languageSettings = let
           interpreters = import ./interpreters {inherit allpkgs;};
-          jsonOutput = builtins.toJSON (interpreters.traojudge);
+
+          languagesArray = {
+            languages = [
+              interpreters.traojudge
+            ];
+            garbages = {
+              test = "test";
+            };
+          };
+          jsonOutput = builtins.toJSON languagesArray;
         in
-          pkgs.writeText "traojudge.json" jsonOutput;
+          pkgs.stdenv.mkDerivation {
+            name = "language-settings";
+            nativeBuildInputs = [pkgs.check-jsonschema];
+            src = pkgs.lib.cleanSource ./.;
+            doCheck = true;
+            buildPhase = ''
+              echo ${jsonOutput} > /tmp/languages.json
+            '';
+            checkPhase = ''
+              check-jsonschema --schemafile ./schema.json /tmp/languages.json
+            '';
+            installPhase = ''
+              mv /tmp/languages.json $out
+            '';
+          };
       };
 
       formatter = pkgs.alejandra;
