@@ -2,7 +2,7 @@
 FROM --platform=amd64 nixos/nix:2.25.2
 
 # configの修正、ワークスペースの作成
-RUN echo "filter-syscalls = false" >> /etc/nix/nix.conf \
+RUN printf "filter-syscalls = false\nexperimental-features = nix-command flakes" >> /etc/nix/nix.conf \
 	&& mkdir /workspace
 COPY . /workspace
 WORKDIR /workspace
