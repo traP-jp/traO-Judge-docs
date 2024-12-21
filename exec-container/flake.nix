@@ -87,28 +87,30 @@
           interpreters = import ./interpreters {inherit allpkgs;};
 
           languagesArray = {
-            languages = [
-              interpreters.traojudge
-            ];
-            garbages = {
-              test = "test";
-            };
+            languages = interpreters.traojudge;
           };
           jsonOutput = builtins.toJSON languagesArray;
+          jsonFile = pkgs.writeText "languages.json" jsonOutput;
         in
           pkgs.stdenv.mkDerivation {
             name = "language-settings";
             nativeBuildInputs = [pkgs.check-jsonschema];
-            src = pkgs.lib.cleanSource ./.;
-            doCheck = true;
-            buildPhase = ''
-              echo ${jsonOutput} > /tmp/languages.json
+            srcs = [
+              jsonFile
+              ./schema.json
+            ];
+            unpackPhase = ''
+              for _src in $srcs; do
+                cp "$_src" $(stripHash "$_src")
+              done
             '';
+            dontBuild = true;
+            doCheck = true;
             checkPhase = ''
-              check-jsonschema --schemafile ./schema.json /tmp/languages.json
+              check-jsonschema --schemafile schema.json languages.json
             '';
             installPhase = ''
-              mv /tmp/languages.json $out
+              mv languages.json $out
             '';
           };
       };
