@@ -85,9 +85,10 @@
         };
         languageSettings = let
           interpreters = import ./interpreters {inherit allpkgs;};
+          compilers = import ./compilers {inherit allpkgs;};
 
           languagesArray = {
-            languages = interpreters.traojudge;
+            languages = interpreters.traojudge ++ compilers.traojudge;
           };
           jsonOutput = builtins.toJSON languagesArray;
           jsonFile = pkgs.writeText "languages.json" jsonOutput;

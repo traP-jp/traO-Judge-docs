@@ -19,4 +19,14 @@ in {
     haxe
     raku
   ];
+  traojudge = [
+    #golang.traojudge
+    brainfuck.traojudge
+    #rust.traojudge
+    #koka.traojudge
+    #mercury.traojudge
+    #cobol.traojudge
+    #haxe.traojudge
+    #raku.traojudge
+  ];
 }
