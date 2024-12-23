@@ -1,7 +1,9 @@
-{ pkgs, allpkgs }:
-let
-  interpreters = import ./interpreters { inherit allpkgs; };
-  compilers = import ./compilers { inherit allpkgs; };
+{
+  pkgs,
+  allpkgs,
+}: let
+  interpreters = import ./interpreters {inherit allpkgs;};
+  compilers = import ./compilers {inherit allpkgs;};
 
   languagesArray = {
     languages = interpreters.traojudge ++ compilers.traojudge;
@@ -11,7 +13,7 @@ let
 in
   pkgs.stdenv.mkDerivation {
     name = "language-settings";
-    nativeBuildInputs = [ pkgs.check-jsonschema ];
+    nativeBuildInputs = [pkgs.check-jsonschema];
     srcs = [
       jsonFile
       ./schema.json
