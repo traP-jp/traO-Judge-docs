@@ -37,5 +37,18 @@ in {
     python.python311.traojudge
     python.python312.traojudge
     python.python312-quantum.traojudge
+    #bash.traojudge
+    #sed.traojudge
+    #node.traojudge
+    #seed7.traojudge
+    #pwsh.traojudge
+    ## sagemath.traojudge
+    #awk.traojudge
+    #whitespace.traojudge
+    #unison.traojudge
+    #zsh.traojudge
+    #lua.traojudge
+    #r.traojudge
+    #prolog.traojudge
   ];
 }
