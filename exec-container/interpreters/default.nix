@@ -14,6 +14,7 @@
   lua = import ./lua {inherit pkgs;};
   r = import ./r {inherit pkgs;};
   prolog = import ./prolog {inherit pkgs;};
+  malbolge = import ./malbolge {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -32,6 +33,7 @@ in {
     lua
     r
     prolog
+    malbolge
   ];
   traojudge = [
     python.python311.traojudge
@@ -50,5 +52,5 @@ in {
     #lua.traojudge
     #r.traojudge
     #prolog.traojudge
-  ];
+  ] ++ malbolge.traojudge.languages;
 }
