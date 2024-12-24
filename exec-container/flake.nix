@@ -83,7 +83,9 @@
             self.packages.${system}.environment
           ];
         };
+        languageSettings = import ./languageSettings.nix {inherit pkgs allpkgs;};
       };
+
       formatter = pkgs.alejandra;
     });
 }
