@@ -1149,7 +1149,7 @@ components:
       properties:
         total:
           type: integer
-        problems:
+        submissions:
           type: array
           items:
             $ref: '#/components/schemas/SubmissionSummary'
