@@ -1,5 +1,4 @@
-{pkgs}:
-let
+{pkgs}: let
   openjdk = pkgs.jdk23;
 in
   pkgs.stdenv.mkDerivation {
@@ -11,7 +10,8 @@ in
       ln -s ${openjdk}/bin/java $out/bin/java
       ln -s ${openjdk}/bin/javac $out/bin/javac
     '';
-  } // {
+  }
+  // {
     traojudge = {
       languages = [
         {
@@ -26,4 +26,3 @@ in
       ];
     };
   }
-  

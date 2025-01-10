@@ -21,14 +21,16 @@ in {
     raku
     java
   ];
-  traojudge = [
-    #golang.traojudge
-    brainfuck.traojudge
-    #rust.traojudge
-    #koka.traojudge
-    #mercury.traojudge
-    #cobol.traojudge
-    #haxe.traojudge
-    #raku.traojudge
-  ] ++ java.traojudge.languages;
+  traojudge =
+    [
+      #golang.traojudge
+      brainfuck.traojudge
+      #rust.traojudge
+      #koka.traojudge
+      #mercury.traojudge
+      #cobol.traojudge
+      #haxe.traojudge
+      #raku.traojudge
+    ]
+    ++ java.traojudge.languages;
 }
