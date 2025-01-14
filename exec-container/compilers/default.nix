@@ -8,6 +8,7 @@
   cobol = import ./cobol {inherit pkgs;};
   haxe = import ./haxe {inherit pkgs;};
   raku = import ./raku {pkgs = allpkgs.release2411;};
+  java = import ./java {pkgs = allpkgs.release2411;};
 in {
   all = [
     golang
@@ -18,15 +19,18 @@ in {
     cobol
     haxe
     raku
+    java
   ];
-  traojudge = [
-    #golang.traojudge
-    brainfuck.traojudge
-    #rust.traojudge
-    #koka.traojudge
-    #mercury.traojudge
-    #cobol.traojudge
-    #haxe.traojudge
-    #raku.traojudge
-  ];
+  traojudge =
+    [
+      #golang.traojudge
+      brainfuck.traojudge
+      #rust.traojudge
+      #koka.traojudge
+      #mercury.traojudge
+      #cobol.traojudge
+      #haxe.traojudge
+      #raku.traojudge
+    ]
+    ++ java.traojudge.languages;
 }
