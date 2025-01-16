@@ -12,8 +12,8 @@ RUN touch /result \
 	# ビルドスクリプトの実行権限付与
 	&& chmod +x /workspace/docker/build-in-docker.sh
 
-# ビルドキャッシュとビルド成果物
-VOLUME [ "/nix", "/result" ]
+# ビルドキャッシュとビルド成果物、lockファイル
+VOLUME [ "/nix", "/result", "/workspace/flake.lock" ]
 
 # ビルド実行
 CMD [ "/workspace/docker/build-in-docker.sh" ]
