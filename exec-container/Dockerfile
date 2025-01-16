@@ -13,7 +13,7 @@ RUN touch /result \
 	&& chmod +x /workspace/docker/build-in-docker.sh
 
 # ビルドキャッシュとビルド成果物
-VOLUME [ "/nix/store", "/result" ]
+VOLUME [ "/nix", "/result" ]
 
 # ビルド実行
 CMD [ "/workspace/docker/build-in-docker.sh" ]
