@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+
+service JudgeService {
+    rpc Judge(JudgeRequest) returns (JudgeResult) {}
+}
+
+message Unit {}
+
+message UUID {
+    uint64 high = 1;
+    uint64 low = 2;
+}
+
+message OptionalInfo {
+    optional float time_limit = 1;
+    optional float memory_limit = 2;
+    optional string language = 3;
+}
+
+
+message Execution {
+    OptionalInfo optional_info = 1;
+    UUID script_id = 2;
+    int64 directory_count = 3;
+    int64 text_resource_count = 4;
+    int64 onetime_text_count = 5;
+}
+
+message ExecutionInstance {
+    repeated UUID text_resource_ids = 1;
+    repeated string onetime_texts = 2;
+}
+
+message JudgeRequest {
+    UUID judge_id = 1;
+    int64 test_count = 2;
+    Execution before_test_execution = 3;
+    Execution on_test_execution = 4;
+    Execution after_test_execution = 5;
+    ExecutionInstance before_test_execution_instance = 6;
+    repeated ExecutionInstance on_test_execution_instances = 7;
+    ExecutionInstance after_test_execution_instance = 8;
+}
+
+enum JudgeStatus {
+    AC = 0;
+    WA = 1;
+    TLE = 2;
+    MLE = 3;
+    OLE = 4;
+    RE = 5;
+    CE = 6;
+}
+
+message ExecutionResult {
+    JudgeStatus status = 1;
+    optional string message = 2;
+    float score = 3;
+    float execution_time = 4;
+    float used_memory = 5;
+}
+
+
+message TerminatedInBeforeTestPhase {
+    ExecutionResult before_test_execution_result = 1;
+}
+
+message TerminatedInOnTestPhase {
+    ExecutionResult before_test_execution_result = 1;
+    repeated ExecutionResult on_test_execution_results = 2;
+}
+
+message Completed {
+    ExecutionResult before_test_execution_result = 1;
+    repeated ExecutionResult on_test_execution_results = 2;
+    ExecutionResult after_test_execution_result = 3;
+}
+
+message JudgeSucceed {
+    oneof result {
+        TerminatedInBeforeTestPhase terminated_in_before_test_phase = 1;
+        TerminatedInOnTestPhase terminated_in_on_test_phase = 2;
+        Completed completed = 4;
+    }
+}
+
+message FailedInBeforeTestPhase {}
+
+message FailedInOnTestPhase {
+    ExecutionResult before_test_execution_result = 1;
+}
+
+message FailedInAfterTestPhase {
+    ExecutionResult before_test_execution_result = 1;
+    repeated ExecutionResult on_test_execution_results = 2;
+}
+
+message JudgeFailed {
+    oneof result {
+        FailedInBeforeTestPhase failed_in_before_test_phase = 1;
+        FailedInOnTestPhase failed_in_on_test_phase = 2;
+        FailedInAfterTestPhase failed_in_after_test_phase = 3;
+    }
+    string message = 4;
+}
+
+message JudgeResult {
+    UUID judge_id = 1;
+    oneof result {
+        JudgeSucceed judge_succeed = 2;
+        JudgeFailed judge_failed = 3;
+    }
+}
