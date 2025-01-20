@@ -1,0 +1,59 @@
+openapi: "3.0.3"
+info:
+  title: control to exec API
+  version: "0.1"
+  license:
+    name: MIT
+    url: "https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE"
+servers:
+  - url: https://api.server.test/v1
+paths:
+  "/result":
+    post:
+      operationId: result
+      description: ジャッジの実行を終了した exec container から judge result message を受け取る．
+      tags:
+        - judge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sample"
+        required: true
+      summary: ジャッジ結果
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+        - bearerAuth: []
+  "/container":
+    post:
+      operationId: container
+      description: 新たに起動した exec container から container created message を受け取る．
+      tags:
+        - infra
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sample"
+        required: true
+      summary: コンテナ
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Sample:
+      title: Sample
