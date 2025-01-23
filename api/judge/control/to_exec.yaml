@@ -18,7 +18,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Sample"
+              $ref: "#/components/schemas/JudgeResultMessage"
         required: true
       summary: ジャッジ結果
       responses:
@@ -38,7 +38,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Sample"
+              $ref: "#/components/schemas/ContainerCreatedMessage"
         required: true
       summary: コンテナ
       responses:
@@ -55,5 +55,68 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    Sample:
-      title: Sample
+    File:
+      title: File
+      type: object
+      description: ファイル
+      properties:
+        fileId:
+          title: fileId
+          type: string
+          description: ファイルの UUID
+          format: uuid
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        filePath:
+          title: filePath
+          type: string
+          description: ファイルのパス
+          example: "/path/to/file"
+      required:
+        - fileId
+        - filePath
+    ContainerCreatedMessage:
+      title: ContainerCreatedMessage
+      type: object
+      description: 新たに起動したコンテナから受け取るメッセージ
+      properties:
+        containerId:
+          title: containerId
+          type: string
+          description: コンテナの UUID
+          format: uuid
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        containerUrl:
+          title: containerUrl
+          type: string
+          description: |-
+            コンテナの URL
+            これを用いて exec container の API を叩く
+          example: 01234567-89ab-cdef-0123-456789abcdef.default.svc.cluster.local
+      required:
+        - containerId
+        - containerUrl
+    JudgeResultMessage:
+      title: JudgeResultMessage
+      type: object
+      description: ジャッジの実行を終了したコンテナから受け取るメッセージ
+      properties:
+        exitCode:
+          title: exitCode
+          type: integer
+          description: 終了コード
+          example: 0
+        stdout:
+          $ref: "#/components/schemas/File"
+        stderr:
+          $ref: "#/components/schemas/File"
+        readonlyFiles:
+          title: readonlyFiles
+          type: array
+          description: ジャッジに使用したファイル（読み取り専用）
+          items:
+            $ref: "#/components/schemas/File"
+      required:
+        - exitCode
+        - stdout
+        - stderr
+        - readonlyFiles
