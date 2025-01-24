@@ -10,6 +10,7 @@
   raku = import ./raku {pkgs = allpkgs.release2411;};
   java = import ./java {pkgs = allpkgs.release2411;};
   gcc = import ./gcc {inherit pkgs;};
+  gxx = import ./g++ {inherit pkgs;};
 in {
   all = [
     golang
@@ -22,6 +23,7 @@ in {
     raku
     java
     gcc
+    gxx
   ];
   traojudge =
     [
@@ -36,4 +38,5 @@ in {
     ]
     ++ java.traojudge.languages;
   #++ gcc.traojudge.languages;
+  #++ gxx.traojudge.languages;
 }

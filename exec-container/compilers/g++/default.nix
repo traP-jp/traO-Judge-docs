@@ -1,0 +1,13 @@
+{pkgs}: let
+  myGcc = pkgs.gcc;
+  myBoost = pkgs.boost;
+  myGmp = pkgs.gmp;
+  myEigen = pkgs.eigen;
+  myAcLibrary = import ./ac-library.nix {inherit pkgs;};
+in
+  pkgs.writeShellScriptBin "g++" ''
+    export LD_LIBRARY_PATH="${myBoost}/lib:${myGmp}/lib:${myEigen}/share:$LD_LIBRARY_PATH"
+    export LIBRARY_PATH="${myBoost}/lib:${myGmp}/lib:${myEigen}/share:$LIBRARY_PATH"
+    export CPLUS_INCLUDE_PATH="${myBoost.dev}/include:${myGmp.dev}/include:${myEigen}/include:${myAcLibrary}/include:$CPLUS_INCLUDE_PATH"
+    exec "${myGcc}/bin/g++" "$@" -lgmpxx -lgmp
+  ''

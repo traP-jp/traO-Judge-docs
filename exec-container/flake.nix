@@ -39,6 +39,10 @@
       url = "github:ThomasMertes/seed7";
       flake = false;
     };
+    ac-library = {
+      url = "github:atcoder/ac-library/v1.5.1";
+      flake = false;
+    };
   };
 
   outputs = flake-inputs @ {
@@ -56,6 +60,7 @@
     gostl,
     golang-org-exp,
     seed7-source,
+    ac-library,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       allpkgs = import ./allpkgs.nix {inherit flake-inputs system;};

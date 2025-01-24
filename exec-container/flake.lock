@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "ac-library": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681226107,
+        "narHash": "sha256-AIqG98c1tcxxhYcX+NSf6Rw3onw61T5NTZtqQzT9jls=",
+        "owner": "atcoder",
+        "repo": "ac-library",
+        "rev": "d8ca7f26686f6c78d15d13ca438ea866526e87fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atcoder",
+        "ref": "v1.5.1",
+        "repo": "ac-library",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -190,6 +207,7 @@
     },
     "root": {
       "inputs": {
+        "ac-library": "ac-library",
         "flake-utils": "flake-utils",
         "gods": "gods",
         "golang-org-exp": "golang-org-exp",
