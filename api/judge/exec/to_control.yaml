@@ -56,18 +56,26 @@ components:
             type: string
             description: 環境
             example: env
-        connectionTimeLimit:
-          title: connectionTimeLimit
-          type: integer
-          description: 接続時間制限
-          example: 20000
-        executionTimeLimit:
-          title: executionTimeLimit
-          type: integer
-          description: 実行時間制限
-          example: 2000
+        optionalInfo:
+          title: optionalInfo
+          type: object
+          description: 任意の情報
+          properties:
+            execTime:
+              title: execTime
+              type: number
+              description: 実行時間
+              example: 1.23
+            memorySize:
+              title: memorySize
+              type: number
+              description: メモリ使用量(byte)
+              example: 123456789
+            language:
+              title: language
+              type: string
+              description: 使用言語
+              example: python
       required:
         - cmd
         - envs
-        - connectionTimeLimit
-        - executionTimeLimit
