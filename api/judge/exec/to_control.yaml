@@ -22,10 +22,12 @@ paths:
         required: true
       summary: ジャッジの実行を開始
       responses:
-        "202":
-          description: |-
-            Accepted
-            ジャッジの実行が開始されました．
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JudgeResultMessage"
         "400":
           description: Bad Request
       security:
@@ -37,6 +39,25 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    File:
+      title: File
+      type: object
+      description: ファイル
+      properties:
+        fileId:
+          title: fileId
+          type: string
+          description: ファイルの UUID
+          format: uuid
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        filePath:
+          title: filePath
+          type: string
+          description: ファイルのパス
+          example: "/path/to/file"
+      required:
+        - fileId
+        - filePath
     FilePlacedMessage:
       title: FilePlacedMessage
       type: object
@@ -79,3 +100,28 @@ components:
       required:
         - cmd
         - envs
+    JudgeResultMessage:
+      title: JudgeResultMessage
+      type: object
+      description: ジャッジの実行を終了したコンテナから受け取るメッセージ
+      properties:
+        exitCode:
+          title: exitCode
+          type: integer
+          description: 終了コード
+          example: 0
+        stdout:
+          $ref: "#/components/schemas/File"
+        stderr:
+          $ref: "#/components/schemas/File"
+        readonlyFiles:
+          title: readonlyFiles
+          type: array
+          description: ジャッジに使用したファイル（読み取り専用）
+          items:
+            $ref: "#/components/schemas/File"
+      required:
+        - exitCode
+        - stdout
+        - stderr
+        - readonlyFiles

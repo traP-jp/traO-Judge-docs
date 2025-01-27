@@ -8,26 +8,6 @@ info:
 servers:
   - url: https://api.server.test/v1
 paths:
-  "/result":
-    post:
-      operationId: result
-      description: ジャッジの実行を終了した exec container から judge result message を受け取る．
-      tags:
-        - judge
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/JudgeResultMessage"
-        required: true
-      summary: ジャッジ結果
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad Request
-      security:
-        - bearerAuth: []
   "/container":
     post:
       operationId: container
@@ -55,25 +35,6 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    File:
-      title: File
-      type: object
-      description: ファイル
-      properties:
-        fileId:
-          title: fileId
-          type: string
-          description: ファイルの UUID
-          format: uuid
-          example: 01234567-89ab-cdef-0123-456789abcdef
-        filePath:
-          title: filePath
-          type: string
-          description: ファイルのパス
-          example: "/path/to/file"
-      required:
-        - fileId
-        - filePath
     ContainerCreatedMessage:
       title: ContainerCreatedMessage
       type: object
@@ -95,28 +56,3 @@ components:
       required:
         - containerId
         - containerUrl
-    JudgeResultMessage:
-      title: JudgeResultMessage
-      type: object
-      description: ジャッジの実行を終了したコンテナから受け取るメッセージ
-      properties:
-        exitCode:
-          title: exitCode
-          type: integer
-          description: 終了コード
-          example: 0
-        stdout:
-          $ref: "#/components/schemas/File"
-        stderr:
-          $ref: "#/components/schemas/File"
-        readonlyFiles:
-          title: readonlyFiles
-          type: array
-          description: ジャッジに使用したファイル（読み取り専用）
-          items:
-            $ref: "#/components/schemas/File"
-      required:
-        - exitCode
-        - stdout
-        - stderr
-        - readonlyFiles
