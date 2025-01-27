@@ -37,25 +37,6 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    File:
-      title: File
-      type: object
-      description: ファイル
-      properties:
-        fileId:
-          title: fileId
-          type: string
-          description: ファイルの UUID
-          format: uuid
-          example: 01234567-89ab-cdef-0123-456789abcdef
-        filePath:
-          title: filePath
-          type: string
-          description: ファイルのパス
-          example: "/path/to/file"
-      required:
-        - fileId
-        - filePath
     FilePlacedMessage:
       title: FilePlacedMessage
       type: object
@@ -85,22 +66,8 @@ components:
           type: integer
           description: 実行時間制限
           example: 2000
-        readonlyFiles:
-          title: readonlyFiles
-          type: array
-          description: ジャッジに使用するファイル（読み取り専用）
-          items:
-            $ref: "#/components/schemas/File"
-        writableFiles:
-          title: writableFiles
-          type: array
-          description: ジャッジに使用するファイル（書き込み可能）
-          items:
-            $ref: "#/components/schemas/File"
       required:
         - cmd
         - envs
         - connectionTimeLimit
         - executionTimeLimit
-        - readonlyFiles
-        - writableFiles
