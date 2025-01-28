@@ -1,0 +1,120 @@
+openapi: "3.0.3"
+info:
+  title: exec to control API
+  version: "0.1"
+  license:
+    name: MIT
+    url: "https://github.com/traP-jp/traO-Judge-docs/blob/main/LICENSE"
+servers:
+  - url: https://api.server.test/v1
+paths:
+  "/execute":
+    post:
+      operationId: execute
+      description: control container から file placed message を受け取り，ジャッジの実行を開始する．
+      tags:
+        - judge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilePlacedMessage"
+        required: true
+      summary: ジャッジの実行を開始
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JudgeResultMessage"
+        "400":
+          description: Bad Request
+components:
+  schemas:
+    File:
+      title: File
+      type: object
+      description: ファイル
+      properties:
+        fileId:
+          title: fileId
+          type: string
+          description: ファイルの UUID
+          format: uuid
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        filePath:
+          title: filePath
+          type: string
+          description: ファイルのパス
+          example: "/path/to/file"
+      required:
+        - fileId
+        - filePath
+    FilePlacedMessage:
+      title: FilePlacedMessage
+      type: object
+      description: ジャッジの実行を開始するトリガーとなるメッセージ
+      properties:
+        cmd:
+          title: cmd
+          type: string
+          description: コマンド
+          example: cmd
+        envs:
+          title: envs
+          type: object
+          description: 環境たち
+          additionalProperties:
+            title: env
+            type: string
+            description: 環境
+            example: env
+        optionalInfo:
+          title: optionalInfo
+          type: object
+          description: 任意の情報
+          properties:
+            execTime:
+              title: execTime
+              type: number
+              description: 実行時間
+              example: 1.23
+            memorySize:
+              title: memorySize
+              type: number
+              description: メモリ使用量(byte)
+              example: 123456789
+            language:
+              title: language
+              type: string
+              description: 使用言語
+              example: python
+      required:
+        - cmd
+        - envs
+    JudgeResultMessage:
+      title: JudgeResultMessage
+      type: object
+      description: ジャッジの実行を終了したコンテナから受け取るメッセージ
+      properties:
+        exitCode:
+          title: exitCode
+          type: integer
+          description: 終了コード
+          example: 0
+        stdout:
+          $ref: "#/components/schemas/File"
+        stderr:
+          $ref: "#/components/schemas/File"
+        readonlyFiles:
+          title: readonlyFiles
+          type: array
+          description: ジャッジに使用したファイル（読み取り専用）
+          items:
+            $ref: "#/components/schemas/File"
+      required:
+        - exitCode
+        - stdout
+        - stderr
+        - readonlyFiles
