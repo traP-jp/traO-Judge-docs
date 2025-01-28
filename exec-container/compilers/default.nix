@@ -11,6 +11,7 @@
   java = import ./java {pkgs = allpkgs.release2411;};
   gcc = import ./gcc {pkgs = allpkgs.release2411;};
   gxx = import ./g++ {pkgs = allpkgs.release2411;};
+  clang = import ./clang {pkgs = allpkgs.release2411;};
 in {
   all = [
     golang
@@ -24,6 +25,7 @@ in {
     java
     gcc
     gxx
+    clang
   ];
   traojudge =
     [
@@ -39,4 +41,5 @@ in {
     ++ java.traojudge.languages;
   #++ gcc.traojudge.languages;
   #++ gxx.traojudge.languages;
+  #++ clang.traojudge.languages;
 }
