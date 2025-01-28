@@ -30,14 +30,7 @@ paths:
                 $ref: "#/components/schemas/JudgeResultMessage"
         "400":
           description: Bad Request
-      security:
-        - bearerAuth: []
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
     File:
       title: File
