@@ -9,8 +9,9 @@
   haxe = import ./haxe {inherit pkgs;};
   raku = import ./raku {pkgs = allpkgs.release2411;};
   java = import ./java {pkgs = allpkgs.release2411;};
-  gcc = import ./gcc {pkgs = allpkgs.release2411;};
-  gxx = import ./g++ {pkgs = allpkgs.release2411;};
+  gcc = import ./gcc {inherit pkgs;};
+  gxx = import ./g++ {inherit pkgs;};
+  clang = import ./clang {pkgs = allpkgs.release2411;};
 in {
   all = [
     golang
@@ -24,6 +25,7 @@ in {
     java
     gcc
     gxx
+    clang
   ];
   traojudge =
     [
@@ -36,7 +38,8 @@ in {
       #haxe.traojudge
       #raku.traojudge
     ]
-    ++ java.traojudge.languages;
+    ++ java.traojudge.languages
+    ++ clang.traojudge.languages;
   #++ gcc.traojudge.languages;
   #++ gxx.traojudge.languages;
 }
