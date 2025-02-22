@@ -107,14 +107,7 @@ components:
           $ref: "#/components/schemas/File"
         stderr:
           $ref: "#/components/schemas/File"
-        readonlyFiles:
-          title: readonlyFiles
-          type: array
-          description: ジャッジに使用したファイル（読み取り専用）
-          items:
-            $ref: "#/components/schemas/File"
       required:
         - exitCode
         - stdout
         - stderr
-        - readonlyFiles
