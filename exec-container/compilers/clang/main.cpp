@@ -3,6 +3,7 @@
 #include <gmpxx.h>
 #include <eigen3/Eigen/Dense>
 #include <atcoder/modint>
+#include <z3++.h>
 
 using namespace std;
 using namespace boost::multiprecision;
@@ -44,6 +45,16 @@ int main(void)
 		c += i;
 	}
 	cout << c.val() << endl;
+
+	// Z3テスト
+	z3::context ctx;
+	z3::solver s(ctx);
+	z3::expr x = ctx.int_const("x");
+	z3::expr y = ctx.int_const("y");
+	s.add(x + y == 10);
+	s.add(x > 3);
+	s.add(y > 3);
+	cout << s.check() << endl;
 
 	return 0;
 }
