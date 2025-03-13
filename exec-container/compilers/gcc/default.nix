@@ -7,7 +7,7 @@ in
       languages = [
         {
           binName = "gcc";
-          compile = "${myClang}/bin/gcc -o $OUT $SRC";
+          compile = "${myGcc}/bin/gcc -o $OUT $SRC";
           name = "C";
           run = "$OUT";
         }
