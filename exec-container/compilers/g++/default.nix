@@ -11,3 +11,15 @@ in
     export CPLUS_INCLUDE_PATH="${myBoost.dev}/include:${myGmp.dev}/include:${myEigen}/include:${myAcLibrary.dev}/include:$CPLUS_INCLUDE_PATH"
     exec "${myGcc}/bin/g++" "$@" -lgmpxx -lgmp
   ''
+  // {
+    traojudge = {
+      languages = [
+        {
+          binName = "g++";
+          compile = "${myGcc}/bin/g++ -std=c++23 -o $OUT $SRC";
+          name = "C++(g++)";
+          run = "$OUT";
+        }
+      ];
+    };
+  }
