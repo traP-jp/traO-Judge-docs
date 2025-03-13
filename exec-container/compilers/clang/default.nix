@@ -17,7 +17,7 @@ in
       languages = [
         {
           binName = "clang++";
-          compile = "${myClang}/bin/g++ -std=c++23 -o $OUT $SRC";
+          compile = "${myClang}/bin/clang++ -std=c++23 -o $OUT $SRC";
           name = "C++(clang)";
           run = "$OUT";
         }
