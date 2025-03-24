@@ -785,25 +785,12 @@ paths:
       operationId: revokeGoogleAuth
       tags:
         - oauth2
-      requestBody:
-        description: Access token to be revoked
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: The access token to revoke
-              required:
-                - token
       responses:
         '201':
           description: トークンは正常に削除されました
           content: {}
-        '400':
-          description: Invalid request or token
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -828,25 +815,12 @@ paths:
       operationId: revokeGithubAuth
       tags:
         - oauth2
-      requestBody:
-        description: Access token to be revoked
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: The access token to revoke
-              required:
-                - token
       responses:
         '201':
           description: トークンは正常に削除されました
           content: {}
-        '400':
-          description: Invalid request or token
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
