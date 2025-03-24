@@ -634,7 +634,9 @@ paths:
       description: メールアドレスの有効化
       tags:
         - email
-  /google-oauth2/params:
+  '/google-oauth2/{oauthAction}/params':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
     get:
       summary: getGoogleOAuth2Params
       operationId: getGoogleAuthParams
@@ -662,8 +664,9 @@ paths:
       description: GoogleOAuthのためのエンドポイント
       tags:
         - oauth2
-    parameters: []
-  /github-oauth2/params:
+  '/github-oauth2/{oauthAction}/params':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
     get:
       summary: getGithubOAuth2Params
       operationId: getgithubAuthParams
@@ -691,7 +694,48 @@ paths:
       description: GitHubOAuthのためのエンドポイント
       tags:
         - oauth2
-    parameters: []
+  '/google-oauth2/{oauthAction}/authorize':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
+    post:
+      summary: postGoogleOAuth2Authorize
+      operationId: postGoogleOAuthAuthorize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthAuthorizationCode'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Invalid authorization code
+        '500':
+          description: Internal server error
+      description: GoogleOAuthのためのエンドポイント
+      tags:
+        - oauth2
+  '/github-oauth2/{oauthAction}/authorize':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
+    post:
+      summary: postGithubOAuth2Authorize
+      operationId: postGithubOAuthAuthorize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthAuthorizationCode'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Invalid authorization code
+        '500':
+          description: Internal server error
+      description: GithubOAuthのためのエンドポイント
+      tags:
+        - oauth2
   /traq-oauth2/revoke:
     post:
       summary: postTraqOAuth2Revoke
@@ -1527,6 +1571,15 @@ components:
       required:
         - id
         - name
+    OAuthAuthorizationCode:
+      title: OAuthAuthorizationCode
+      description: OAuth先から返される認可コード
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
   parameters:
     problemIdInPath:
       name: problemId
@@ -1699,3 +1752,14 @@ components:
       schema:
         type: string
       description: 問題のID
+    oauthActionInPath:
+      name: oauthAction
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+          - login
+          - signup
+          - bind
+      description: OAuthのアクション（login, signup, bind）
