@@ -707,7 +707,7 @@ paths:
               $ref: '#/components/schemas/OAuthAuthorizationCode'
       responses:
         '200':
-          description: OK(only when oauthAction is 'signup')
+          description: OK(only when oauthAction is 'signup' or 'login' and no account is binded to the oauth account)
           content:
             application/json:
               schema:
@@ -718,7 +718,7 @@ paths:
                 required:
                   - token
         '204':
-          description: No content(only when oauthAction is 'login' or 'bind')
+          description: No content
         '400':
           description: Invalid authorization code
         '500':
@@ -739,7 +739,7 @@ paths:
               $ref: '#/components/schemas/OAuthAuthorizationCode'
       responses:
         '200':
-          description: OK(only when oauthAction is 'signup')
+          description: OK(only when oauthAction is 'signup' or 'login' and no account is binded to the oauth account)
           content:
             application/json:
               schema:
@@ -750,7 +750,7 @@ paths:
                 required:
                   - token
         '204':
-          description: No content(only when oauthAction is 'login' or 'bind')
+          description: No content
         '400':
           description: Invalid authorization code
         '500':
