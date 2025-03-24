@@ -537,6 +537,8 @@ paths:
           description: 不正なリクエストです
         '401':
           description: Unauthorized
+        '500':
+          description: Internal server error
       requestBody:
         content:
           application/json:
@@ -545,12 +547,9 @@ paths:
       tags:
         - authentication
       description: |-
-        email+passwordによるユーザー登録
-        クエリパラメタにtokenを持ち，それでメール情報を管理する
-        リクエストを受け取ったら`/activate?payload=JWT`のような形式のメール有効化用エンドポイントを含むメールをバックエンドからユーザーに送る。
-        ユーザーがそのアドレスをクリックしたら，メール有効化処理をし，適切に終了したらログイン画面にリダイレクトする。
-      parameters:
-        - $ref: '#/components/parameters/JWTWithoutUserId'
+        ユーザー登録
+        tokenでメールまたはOAuth情報を管理する
+        OAuthの場合、パスワードは不要
   /login:
     post:
       summary: postLogin
@@ -1370,7 +1369,6 @@ components:
           type: string
       required:
         - userName
-        - password
         - token
     SignupRequest:
       title: SignupRequest
