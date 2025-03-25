@@ -720,6 +720,8 @@ paths:
           description: No content
         '400':
           description: Invalid authorization code
+        '401':
+          description: Unauthorized(only when oauthAction is 'bind')
         '500':
           description: Internal server error
       description: GoogleOAuthのためのエンドポイント
@@ -752,6 +754,8 @@ paths:
           description: No content
         '400':
           description: Invalid authorization code
+        '401':
+          description: Unauthorized(only when oauthAction is 'bind')
         '500':
           description: Internal server error
       description: GithubOAuthのためのエンドポイント
@@ -810,6 +814,16 @@ paths:
         '201':
           description: トークンは正常に削除されました
           content: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Cannot revoke OAuth account because no other authentication method is available
         '401':
           description: Unauthorized
           content:
@@ -840,6 +854,16 @@ paths:
         '201':
           description: トークンは正常に削除されました
           content: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Cannot revoke OAuth account because no other authentication method is available
         '401':
           description: Unauthorized
           content:
