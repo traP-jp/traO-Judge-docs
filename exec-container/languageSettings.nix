@@ -11,10 +11,12 @@
     temp = "$TRAOJUDGE_BUILD_TEMPDIR";
   };
   languagesArray = {
-    languages = builtins.map (lang: lang // {
-      compile = lang.compile cfg;
-      run = lang.run cfg;
-    }) (interpreters.traojudge ++ compilers.traojudge);
+    languages = builtins.map (lang:
+      lang
+      // {
+        compile = lang.compile cfg;
+        run = lang.run cfg;
+      }) (interpreters.traojudge ++ compilers.traojudge);
   };
   jsonOutput = builtins.toJSON languagesArray;
   jsonFile = pkgs.writeText "languages.json" jsonOutput;
