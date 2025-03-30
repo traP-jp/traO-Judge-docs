@@ -16,12 +16,12 @@ in
       languages = [
         {
           binName = "java";
-          compile = ''
-            ln -s $SRC $DEST/Main.java
-            ${openjdk}/bin/javac $DEST/Main.java
+          compile = cfg: ''
+            ln -s ${cfg.src} ${cfg.out}/Main.java
+            ${openjdk}/bin/javac ${cfg.out}/Main.java
           '';
           name = "Java";
-          run = "${openjdk}/bin/java $DEST/Main";
+          run = cfg: "${openjdk}/bin/java ${cfg.out}/Main";
         }
       ];
     };

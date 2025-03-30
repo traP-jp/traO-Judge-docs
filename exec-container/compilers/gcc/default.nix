@@ -7,9 +7,9 @@ in
       languages = [
         {
           binName = "gcc";
-          compile = "${myGcc}/bin/gcc -o $OUT $SRC";
+          compile = cfg: "${myGcc}/bin/gcc -o ${cfg.out} ${cfg.src}";
           name = "C";
-          run = "$OUT";
+          run = cfg: "exec ${cfg.out}";
         }
       ];
     };

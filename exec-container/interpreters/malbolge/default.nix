@@ -20,9 +20,9 @@ in
       languages = [
         {
           binName = "malbolge";
-          compile = "";
+          compile = cfg: "";
           name = "Malbolge";
-          run = "${malbolge}/bin/malbolge \"$SRC\"";
+          run = cfg: "${malbolge}/bin/malbolge \"${cfg.src}\"";
         }
       ];
     };

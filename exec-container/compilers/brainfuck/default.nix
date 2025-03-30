@@ -7,7 +7,7 @@ in
     traojudge = {
       name = "Brainfuck";
       binName = "bfc";
-      compile = "${myBrainfuck} \"$SRC\"";
-      run = "exec \"$DIST\""; # TODO: bfcは出力ファイルを指定できなさそうなので、これは変えないといけない
+      compile = cfg: "${myBrainfuck} \"$SRC\"";
+      run = cfg: "exec \"$DIST\""; # TODO: bfcは出力ファイルを指定できなさそうなので、これは変えないといけない
     };
   }
