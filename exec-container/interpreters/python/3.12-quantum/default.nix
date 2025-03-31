@@ -46,8 +46,8 @@ in
     traojudge = {
       name = "Python3.12-quantum";
       binName = "python3.12-quantum";
-      compile = "cp \"$SRC\" \"$DIST\"";
-      run = "exec ${python-modified}/bin/python \"$DIST\"";
+      compile = cfg: "${pkgs.coreutils}/bin/cp ${cfg.src} ${cfg.out}/main.py";
+      run = cfg: "exec ${python-modified}/bin/python ${cfg.out}/main.py";
       libraries = [
         {
           name = "qiskit";

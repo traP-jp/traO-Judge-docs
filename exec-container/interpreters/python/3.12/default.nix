@@ -21,8 +21,8 @@ in
     traojudge = {
       name = "Python3.12";
       binName = "python3.12";
-      compile = "cp \"$SRC\" \"$DIST\"";
-      run = "exec ${myPython}/bin/python \"$DIST\"";
+      compile = cfg: "${pkgs.coreutils}/bin/cp ${cfg.src} ${cfg.out}/main.py";
+      run = cfg: "exec ${myPython}/bin/python ${cfg.out}/main.py";
       #libraries = [
       #  バージョンが指定されていないので書けない
       #]

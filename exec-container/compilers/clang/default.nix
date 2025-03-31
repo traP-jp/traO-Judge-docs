@@ -17,9 +17,10 @@ in
       languages = [
         {
           binName = "clang++";
-          compile = "${myClang}/bin/clang++ -std=c++23 -o $OUT $SRC";
+          compile = cfg: "${pkgs.coreutils}/bin/cp ${cfg.src} ${cfg.temp}/main.cpp && \
+            ${myClang}/bin/clang++ -std=c++23 -o ${cfg.out} ${cfg.temp}/main.cpp -lgmpxx -lgmp -lz3";
           name = "C++(clang)";
-          run = "$OUT";
+          run = cfg: "exec ${cfg.out}";
         }
       ];
     };

@@ -5,8 +5,18 @@
   interpreters = import ./interpreters {inherit allpkgs;};
   compilers = import ./compilers {inherit allpkgs;};
 
+  cfg = {
+    src = "$TRAOJUDGE_BUILD_SOURCE";
+    out = "$TRAOJUDGE_BUILD_OUTPUT";
+    temp = "$TRAOJUDGE_BUILD_TEMPDIR";
+  };
   languagesArray = {
-    languages = interpreters.traojudge ++ compilers.traojudge;
+    languages = builtins.map (lang:
+      lang
+      // {
+        compile = lang.compile cfg;
+        run = lang.run cfg;
+      }) (interpreters.traojudge ++ compilers.traojudge);
   };
   jsonOutput = builtins.toJSON languagesArray;
   jsonFile = pkgs.writeText "languages.json" jsonOutput;

@@ -16,9 +16,9 @@ in
       languages = [
         {
           binName = "g++";
-          compile = "${myGcc}/bin/g++ -std=c++23 -o $OUT $SRC";
+          compile = cfg: "${myGcc}/bin/g++ -std=c++23 -o ${cfg.out} ${cfg.src} -lgmpxx -lgmp";
           name = "C++(g++)";
-          run = "$OUT";
+          run = cfg: "exec ${cfg.out}";
         }
       ];
     };
