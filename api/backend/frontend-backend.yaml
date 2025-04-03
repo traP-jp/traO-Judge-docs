@@ -145,9 +145,9 @@ paths:
             schema:
               $ref: '#/components/schemas/PostProblemRequest'
       responses:
-        '200':
+        '201':
           description: |-
-            OK
+            Created
             問題が投稿されました.
           content:
             application/json:
@@ -159,8 +159,8 @@ paths:
       summary: getProblems
       operationId: getProblems
       responses:
-        '201':
-          description: Created
+        '200':
+          description: OK
           content:
             application/json:
               schema:
@@ -532,7 +532,7 @@ paths:
       operationId: postSignup
       responses:
         '201':
-          description: 正常にユーザーを作成できました　メール認証を行なってください
+          description: 正常にユーザーを作成できました
         '400':
           description: 不正なリクエストです
         '401':
@@ -588,6 +588,8 @@ paths:
       responses:
         '204':
           description: 正常にリセットメールを送信しました
+        '400':
+          description: Bad Request
       operationId: postRequestResetPassword
       description: |-
         パスワード変更のリクエスト
@@ -605,6 +607,8 @@ paths:
       responses:
         '204':
           description: 正常に更新されました
+        '400':
+          description: Bad Request
       description: 新しいパスワードをPOSTする
       requestBody:
         content:
@@ -879,9 +883,7 @@ components:
         solvedCount:
           type: integer
         testcases:
-          type: array
-          items:
-            $ref: '#/components/schemas/TestcaseSummaries'
+          $ref: '#/components/schemas/TestcaseSummaries'
         createdAt:
           type: string
           format: date-time
@@ -1045,9 +1047,7 @@ components:
           $ref: '#/components/schemas/ProblemSummaries'
         submitProblems:
           $ref: '#/components/schemas/SubmissionSummaries'
-        xLink:
-          type: string
-        githubLink:
+        xId:
           type: string
         selfIntroduction:
           type: string
@@ -1214,6 +1214,8 @@ components:
         source:
           type: string
           description: ソースコード
+      required:
+        - languageId
     EditorialSummary:
       title: EditorialSummary
       description: 解説
@@ -1230,9 +1232,6 @@ components:
           description: 更新日時
           type: string
           format: date-time
-        problemId:
-          description: 問題ID
-          type: integer
         authorId:
           description: 投稿者のユーザーID
           type: integer
@@ -1265,9 +1264,6 @@ components:
           description: 更新日時
           type: string
           format: date-time
-        problemId:
-          description: 問題ID
-          type: integer
         authorId:
           description: 投稿者のユーザーID
           type: integer
@@ -1284,7 +1280,6 @@ components:
       required:
         - id
         - createdAt
-        - problemId
         - authorId
         - statement
         - isPublic
@@ -1427,14 +1422,14 @@ components:
       description: |-
         ユーザの役割
 
-        * `admin` - admin
-        * `traPUser` - adminでないtraP部員
-        * `commonUser` - adminでない一般ユーザー(traP部員以外のユーザー)
+        * `Admin` - Admin
+        * `traPUser` - AdminでないtraP部員
+        * `CommonUser` - Adminでない一般ユーザー(traP部員以外のユーザー)
       type: string
       enum:
-        - admin
+        - Admin
         - traPUser
-        - commonUser
+        - CommonUser
     Testcase:
       title: Testcase
       type: object
@@ -1509,12 +1504,9 @@ components:
           format: date-time
     TestcaseSummaries:
       title: TestcaseSummaries
-      type: object
-      properties:
-        testcaseSummaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/TestcaseSummary'
+      type: array
+      items:
+        $ref: '#/components/schemas/TestcaseSummary'
     Language:
       title: Language
       type: object
