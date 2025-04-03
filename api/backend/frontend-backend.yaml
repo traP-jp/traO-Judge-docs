@@ -883,9 +883,7 @@ components:
         solvedCount:
           type: integer
         testcases:
-          type: array
-          items:
-            $ref: '#/components/schemas/TestcaseSummary'
+          $ref: '#/components/schemas/TestcaseSummaries'
         createdAt:
           type: string
           format: date-time
