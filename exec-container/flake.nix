@@ -77,9 +77,13 @@
           };
         default = pkgs.dockerTools.buildImage {
           name = "exec-container";
-          copyToRoot = [
-            self.packages.${system}.environment
-          ];
+          copyToRoot = pkgs.symlinkJoin {
+            name = "exec-container-enviroment";
+            paths = [
+              self.packages.${system}.environment
+              self.packages.${system}.languageSettings
+            ];
+          };
         };
         languageSettings = import ./languageSettings.nix {inherit pkgs allpkgs;};
       };
