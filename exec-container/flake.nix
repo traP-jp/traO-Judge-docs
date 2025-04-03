@@ -4,7 +4,6 @@
     nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-2411.url = "github:NixOS/nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
-    toj-helper.url = "github:traP-jp/traO-Judge-helper";
     pyproject-nix = {
       url = "github:nix-community/pyproject.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +46,6 @@
     nixpkgs-2405,
     nixpkgs-2411,
     flake-utils,
-    toj-helper,
     uv2nix,
     pyproject-nix,
     rust-overlay,
