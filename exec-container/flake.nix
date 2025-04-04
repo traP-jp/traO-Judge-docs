@@ -84,6 +84,11 @@
               self.packages.${system}.languageSettings
             ];
           };
+          config = {
+            Env = [
+              "TRAOJUDGE_EXEC_LANGUAGE=/languages.json"
+            ];
+          };
         };
         languageSettings = import ./languageSettings.nix {inherit pkgs allpkgs;};
       };
