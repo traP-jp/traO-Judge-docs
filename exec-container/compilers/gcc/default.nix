@@ -1,13 +1,15 @@
 {pkgs}: let
   myGcc = pkgs.gcc;
+
+  gccScript = pkgs.writeShellScriptBin "gcc" "exec ${myGcc}/bin/gcc $@";
 in
-  pkgs.writeShellScriptBin "gcc" "exec ${myGcc}/bin/gcc $@"
+  gccScript
   // {
     traojudge = {
       languages = [
         {
           binName = "gcc";
-          compile = cfg: "${myGcc}/bin/gcc -o ${cfg.out} ${cfg.src}";
+          compile = cfg: "${gccScript}/bin/gcc -o ${cfg.out} ${cfg.src}";
           name = "C";
           run = cfg: "exec ${cfg.out}";
         }
