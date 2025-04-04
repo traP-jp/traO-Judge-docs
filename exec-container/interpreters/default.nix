@@ -20,6 +20,7 @@ in {
     python.python311
     python.python312
     python.python312-quantum
+    python.python312-traopy-util
     bash
     sed
     node

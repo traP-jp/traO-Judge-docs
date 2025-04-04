@@ -1,0 +1,21 @@
+version = 1
+requires-python = "==3.12.*"
+
+[[package]]
+name = "traojudge-traopy-util"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "traopy-util" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "traopy-util", specifier = "==0.1.2" }]
+
+[[package]]
+name = "traopy-util"
+version = "0.1.2"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f4/45/39989fbbea056cb99e704b5090035d0870b4d07dc28c4d8778b23fdc28e0/traopy_util-0.1.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:93fdd69fb2ddd6c7a7aeb4f584566df40b1b23748f71efd0cc47f2d6a3760da2", size = 430124 },
+]

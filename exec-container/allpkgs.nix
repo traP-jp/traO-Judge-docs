@@ -16,7 +16,6 @@
       inherit seed7-source;
     })
     (final: prev: {
-      toj-helper = toj-helper.packages.${system}.default;
       toj-utils = import ./utils {pkgs = prev;};
     })
   ];

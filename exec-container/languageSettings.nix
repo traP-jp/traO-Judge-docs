@@ -39,6 +39,7 @@ in
       check-jsonschema --schemafile schema.json languages.json
     '';
     installPhase = ''
-      mv languages.json $out
+      mkdir -p $out
+      mv languages.json $out/languages.json
     '';
   }
