@@ -537,6 +537,8 @@ paths:
           description: 不正なリクエストです
         '401':
           description: Unauthorized
+        '500':
+          description: Internal server error
       requestBody:
         content:
           application/json:
@@ -545,12 +547,9 @@ paths:
       tags:
         - authentication
       description: |-
-        email+passwordによるユーザー登録
-        クエリパラメタにtokenを持ち，それでメール情報を管理する
-        リクエストを受け取ったら`/activate?payload=JWT`のような形式のメール有効化用エンドポイントを含むメールをバックエンドからユーザーに送る。
-        ユーザーがそのアドレスをクリックしたら，メール有効化処理をし，適切に終了したらログイン画面にリダイレクトする。
-      parameters:
-        - $ref: '#/components/parameters/JWTWithoutUserId'
+        ユーザー登録
+        tokenでメールまたはOAuth情報を管理する
+        OAuthの場合、パスワードは不要
   /login:
     post:
       summary: postLogin
@@ -638,7 +637,9 @@ paths:
       description: メールアドレスの有効化
       tags:
         - email
-  /google-oauth2/params:
+  '/google-oauth2/{oauthAction}/params':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
     get:
       summary: getGoogleOAuth2Params
       operationId: getGoogleAuthParams
@@ -666,8 +667,9 @@ paths:
       description: GoogleOAuthのためのエンドポイント
       tags:
         - oauth2
-    parameters: []
-  /github-oauth2/params:
+  '/github-oauth2/{oauthAction}/params':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
     get:
       summary: getGithubOAuth2Params
       operationId: getgithubAuthParams
@@ -695,7 +697,74 @@ paths:
       description: GitHubOAuthのためのエンドポイント
       tags:
         - oauth2
-    parameters: []
+  '/google-oauth2/{oauthAction}/authorize':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
+    post:
+      summary: postGoogleOAuth2Authorize
+      operationId: postGoogleOAuthAuthorize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthAuthorizationCode'
+      responses:
+        '200':
+          description: OK(only when oauthAction is 'signup' or 'login' and no account is binded to the oauth account)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                required:
+                  - token
+        '204':
+          description: No content
+        '400':
+          description: Invalid authorization code
+        '401':
+          description: Unauthorized(only when oauthAction is 'bind')
+        '500':
+          description: Internal server error
+      description: GoogleOAuthのためのエンドポイント
+      tags:
+        - oauth2
+  '/github-oauth2/{oauthAction}/authorize':
+    parameters:
+      - $ref: '#/components/parameters/oauthActionInPath'
+    post:
+      summary: postGithubOAuth2Authorize
+      operationId: postGithubOAuthAuthorize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthAuthorizationCode'
+      responses:
+        '200':
+          description: OK(only when oauthAction is 'signup' or 'login' and no account is binded to the oauth account)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                required:
+                  - token
+        '204':
+          description: No content
+        '400':
+          description: Invalid authorization code
+        '401':
+          description: Unauthorized(only when oauthAction is 'bind')
+        '500':
+          description: Internal server error
+      description: GithubOAuthのためのエンドポイント
+      tags:
+        - oauth2
   /traq-oauth2/revoke:
     post:
       summary: postTraqOAuth2Revoke
@@ -745,25 +814,22 @@ paths:
       operationId: revokeGoogleAuth
       tags:
         - oauth2
-      requestBody:
-        description: Access token to be revoked
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: The access token to revoke
-              required:
-                - token
       responses:
         '201':
           description: トークンは正常に削除されました
           content: {}
         '400':
-          description: Invalid request or token
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Cannot revoke OAuth account because no other authentication method is available
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -788,25 +854,22 @@ paths:
       operationId: revokeGithubAuth
       tags:
         - oauth2
-      requestBody:
-        description: Access token to be revoked
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: The access token to revoke
-              required:
-                - token
       responses:
         '201':
           description: トークンは正常に削除されました
           content: {}
         '400':
-          description: Invalid request or token
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Cannot revoke OAuth account because no other authentication method is available
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -1325,7 +1388,6 @@ components:
           type: string
       required:
         - userName
-        - password
         - token
     SignupRequest:
       title: SignupRequest
@@ -1519,6 +1581,15 @@ components:
       required:
         - id
         - name
+    OAuthAuthorizationCode:
+      title: OAuthAuthorizationCode
+      description: OAuth先から返される認可コード
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
   parameters:
     problemIdInPath:
       name: problemId
@@ -1691,3 +1762,14 @@ components:
       schema:
         type: string
       description: 問題のID
+    oauthActionInPath:
+      name: oauthAction
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+          - login
+          - signup
+          - bind
+      description: OAuthのアクション（login, signup, bind）
