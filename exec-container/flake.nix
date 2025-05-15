@@ -86,7 +86,7 @@
           };
           config = {
             Env = [
-              "TRAOJUDGE_EXEC_LANGUAGE=/languages.json"
+              "TRAOJUDGE_LANGUAGES_JSON=/languages.json"
             ];
           };
         };
