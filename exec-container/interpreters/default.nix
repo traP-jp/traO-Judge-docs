@@ -15,6 +15,7 @@
   r = import ./r {inherit pkgs;};
   prolog = import ./prolog {inherit pkgs;};
   malbolge = import ./malbolge {inherit pkgs;};
+  sh = import ./sh {inherit pkgs;};
 in {
   all = [
     python.python311
@@ -35,6 +36,7 @@ in {
     r
     prolog
     malbolge
+    sh
   ];
   traojudge =
     [
