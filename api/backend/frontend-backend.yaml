@@ -449,7 +449,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Me'
         '401':
           description: |-
             Unauthorized
@@ -464,7 +464,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Me'
         '400':
           description: 不正なリクエストです
       tags:
@@ -1128,6 +1128,48 @@ components:
         - role
         - createdAt
         - updatedAt
+    UserAuthentication:
+      title: UserAuthentication
+      type: object
+      description: ユーザーの認証情報
+      properties:
+        hasEmailAuth:
+          type: boolean
+          description: メール+パスワード認証が設定されているか
+        hasGoogleAuth:
+          type: boolean
+          description: Google認証が連携されているか
+        hasGithubAuth:
+          type: boolean
+          description: GitHub認証が連携されているか
+        email:
+          type: string
+          format: email
+          description: 認証用メールアドレス
+        emailVerified:
+          type: boolean
+          description: メールが確認済みか
+        hasTraqAuth:
+          type: string
+          description: traQ認証が連携されているか
+      required:
+        - hasEmailAuth
+        - hasGoogleAuth
+        - hasGithubAuth
+        - emailVerified
+        - hasTraqAuth
+    Me:
+      title: Me
+      type: object
+      description: ログインユーザー自身の詳細情報
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            authentication:
+              $ref: '#/components/schemas/UserAuthentication'
+          required:
+            - authentication
     PutMeRequest:
       title: PutMeRequest
       type: object
@@ -1137,10 +1179,14 @@ components:
         icon:
           type: string
           format: binary
-        xLink:
+        xId:
           type: string
-        githubLink:
+          x-stoplight:
+            id: f3asn9h8jlzvr
+        githubId:
           type: string
+          x-stoplight:
+            id: e0hrxedlfimd4
         selfIntroduction:
           type: string
     PutPasswordRequest:
@@ -1772,4 +1818,4 @@ components:
           - login
           - signup
           - bind
-      description: OAuthのアクション（login, signup, bind）
+      description: 'OAuthのアクション（login, signup, bind）'
