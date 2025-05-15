@@ -67,7 +67,7 @@
           misc = import ./misc {inherit allpkgs;};
         in
           pkgs.symlinkJoin {
-            name = "exec-container-enviroment";
+            name = "exec-container-enviromentaaaaa";
             paths = [
               interpreters.all
               compilers.all
@@ -86,7 +86,7 @@
           };
           config = {
             Env = [
-              "TRAOJUDGE_EXEC_LANGUAGE=/languages.json"
+              "TRAOJUDGE_LANGUAGES_JSON=/languages.json"
             ];
           };
         };
