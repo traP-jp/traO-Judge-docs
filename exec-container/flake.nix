@@ -67,7 +67,7 @@
           misc = import ./misc {inherit allpkgs;};
         in
           pkgs.symlinkJoin {
-            name = "exec-container-enviromentaaaaa";
+            name = "exec-container-enviroment";
             paths = [
               interpreters.all
               compilers.all
