@@ -457,7 +457,7 @@ paths:
       description: 自身の情報を取得する
     put:
       summary: putMe
-      operationId: putUsersMeIcon
+      operationId: putMe
       responses:
         '200':
           description: 正常に更新されました
