@@ -1133,31 +1133,30 @@ components:
       type: object
       description: ユーザーの認証情報
       properties:
-        hasEmailAuth:
-          type: boolean
-          description: メール+パスワード認証が設定されているか
-        hasGoogleAuth:
-          type: boolean
-          description: Google認証が連携されているか
-        hasGithubAuth:
-          type: boolean
-          description: GitHub認証が連携されているか
-        email:
+        emailAuth:
           type: string
           format: email
-          description: 認証用メールアドレス
+          description: メール認証用のアドレス（存在すればメール認証可能）
+          nullable: true
         emailVerified:
           type: boolean
-          description: メールが確認済みか
-        hasTraqAuth:
+          description: メールが確認済みかどうか
+          default: false
+        googleAuth:
           type: string
-          description: traQ認証が連携されているか
+          format: email
+          description: Google認証に使用されているメールアドレス（存在すればGoogle認証済み）
+          nullable: true
+        githubAuth:
+          type: string
+          description: GitHub認証に使用されている識別子（存在すればGitHub認証済み）
+          nullable: true
+        traqAuth:
+          type: string
+          description: traQ認証に使用されている識別子（存在すればtraQ認証済み）
+          nullable: true
       required:
-        - hasEmailAuth
-        - hasGoogleAuth
-        - hasGithubAuth
         - emailVerified
-        - hasTraqAuth
     Me:
       title: Me
       type: object
