@@ -1098,9 +1098,6 @@ components:
         name:
           type: string
           description: ユーザー名
-        traqId:
-          type: string
-          description: traQのID
         githubId:
           type: string
           description: GitHubのID
