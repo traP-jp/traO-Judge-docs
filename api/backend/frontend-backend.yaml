@@ -455,7 +455,6 @@ paths:
             Unauthorized
             ログインしていません.
       description: 自身の情報を取得する
-
     put:
       summary: putMe
       operationId: putMe
@@ -506,7 +505,6 @@ paths:
           description: 不正なリクエストです
         "401":
           description: Unauthorized
-
       tags:
         - me
       requestBody:
@@ -1331,7 +1329,7 @@ components:
       properties:
         id:
           description: 解説ID
-          type: integer
+          type: string
         createdAt:
           description: 作成日時
           type: string
@@ -1342,7 +1340,7 @@ components:
           format: date-time
         authorId:
           description: 投稿者のユーザーID
-          type: integer
+          type: string
         isPublic:
           description: |-
             解説が全体公開かどうか.
@@ -1350,6 +1348,14 @@ components:
             * `true` - 公開
             * `false` - 非公開 (問題の作者のみ閲覧可)
           type: boolean
+        title:
+          type: string
+      required:
+        - id
+        - createdAt
+        - authorId
+        - isPublic
+        - title
     EditorialSummaries:
       title: EditorialSummaries
       description: 解説一覧
@@ -1363,7 +1369,7 @@ components:
       properties:
         id:
           description: 解説ID
-          type: integer
+          type: string
         createdAt:
           description: 作成日時
           type: string
@@ -1374,7 +1380,7 @@ components:
           format: date-time
         authorId:
           description: 投稿者のユーザーID
-          type: integer
+          type: string
         statement:
           description: 解説本文 (HTML)
           type: string
@@ -1385,12 +1391,15 @@ components:
             * `true` - 公開
             * `false` - 非公開 (問題の作者のみ閲覧可)
           type: boolean
+        title:
+          type: string
       required:
         - id
         - createdAt
         - authorId
         - statement
         - isPublic
+        - title
     PostEditorialRequest:
       title: PostEditorialRequest
       description: 解説の作成リクエスト
