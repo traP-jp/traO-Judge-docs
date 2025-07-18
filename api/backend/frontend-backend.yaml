@@ -1405,6 +1405,9 @@ components:
       description: 解説の作成リクエスト
       type: object
       properties:
+        title:
+          description: 解説タイトル
+          type: string
         statement:
           description: 解説本文 (HTML)
           type: string
@@ -1416,6 +1419,7 @@ components:
             * `false` - 非公開 (問題の作者のみ閲覧可)
           type: boolean
       required:
+        - title
         - statement
         - isPublic
     PutEditorialRequest:
@@ -1423,6 +1427,9 @@ components:
       description: 解説の変更リクエスト.
       type: object
       properties:
+        title:
+          description: 解説タイトル
+          type: string
         statement:
           description: 解説本文 (HTML)
           type: string
