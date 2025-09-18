@@ -926,7 +926,7 @@ components:
           type: string
           description: 問題タイトル
         authorId:
-          type: integer
+          type: string
           description: 作問者のユーザーID
         isPublic:
           type: boolean
@@ -982,7 +982,7 @@ components:
           type: string
           description: 問題タイトル
         authorId:
-          type: integer
+          type: string
           description: 作問者のユーザーID
         isPublic:
           type: boolean
@@ -1209,10 +1209,10 @@ components:
           type: string
           description: 提出ID
         problemId:
-          type: integer
+          type: string
           description: 問題ID
         userId:
-          type: integer
+          type: string
           description: 提出ユーザーID
         userName:
           type: string
@@ -1221,7 +1221,7 @@ components:
           format: date-time
           description: 提出日時
         languageId:
-          type: integer
+          type: string
           description: 提出コードの言語ID
         totalScore:
           type: integer
@@ -1268,19 +1268,19 @@ components:
           type: string
           description: 提出ID
         userId:
-          type: integer
+          type: string
           description: 提出ユーザーID
         userName:
           type: string
         problemId:
-          type: integer
+          type: string
           description: 問題ID
         submittedAt:
           type: string
           format: date-time
           description: 提出日時
         languageId:
-          type: integer
+          type: string
           description: 提出コードの言語ID
         totalScore:
           type: integer
@@ -1315,7 +1315,7 @@ components:
       description: 回答の提出リクエスト
       properties:
         languageId:
-          type: integer
+          type: string
           description: 提出コードの言語ID
         source:
           type: string
@@ -1636,7 +1636,7 @@ components:
       description: プログラミング言語についての情報
       properties:
         id:
-          type: integer
+          type: string
         name:
           type: string
       required:
