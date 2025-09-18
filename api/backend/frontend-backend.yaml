@@ -341,7 +341,7 @@ paths:
         description: 問題ID
         required: true
         schema:
-          type: number
+          type: string
     post:
       summary: postSubmission
       operationId: postSubmission
@@ -1690,7 +1690,7 @@ components:
       description: 提出ID
       required: true
       schema:
-        type: number
+        type: string
     submissionsOrderByInQuery:
       name: orderBy
       in: query
