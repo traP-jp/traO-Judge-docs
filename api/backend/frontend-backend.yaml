@@ -714,7 +714,7 @@ paths:
               $ref: "#/components/schemas/OAuthAuthorizationCode"
       responses:
         "200":
-          description: OK(only when oauthAction is 'signup' or 'login' and no account is binded to the oauth account)
+          description: OK(only when oauthAction is "signup" or "login" and no account is binded to the oauth account)
           content:
             application/json:
               schema:
@@ -729,7 +729,7 @@ paths:
         "400":
           description: Invalid authorization code
         "401":
-          description: Unauthorized(only when oauthAction is 'bind')
+          description: Unauthorized(only when oauthAction is "bind")
         "500":
           description: Internal server error
       description: GoogleOAuthのためのエンドポイント
@@ -748,7 +748,7 @@ paths:
               $ref: "#/components/schemas/OAuthAuthorizationCode"
       responses:
         "200":
-          description: OK(only when oauthAction is 'signup' or 'login' and no account is binded to the oauth account)
+          description: OK(only when oauthAction is "signup" or "login" and no account is binded to the oauth account)
           content:
             application/json:
               schema:
@@ -763,7 +763,7 @@ paths:
         "400":
           description: Invalid authorization code
         "401":
-          description: Unauthorized(only when oauthAction is 'bind')
+          description: Unauthorized(only when oauthAction is "bind")
         "500":
           description: Internal server error
       description: GithubOAuthのためのエンドポイント
@@ -1208,14 +1208,18 @@ components:
         id:
           type: string
           description: 提出ID
-        problemId:
+        title:
           type: string
-          description: 問題ID
+          x-stoplight:
+            id: hzviku4ukwyeq
         userId:
           type: string
           description: 提出ユーザーID
         userName:
           type: string
+        problemId:
+          type: string
+          description: 問題ID
         submittedAt:
           type: string
           format: date-time
@@ -1238,9 +1242,10 @@ components:
           $ref: "#/components/schemas/JudgeStatus"
       required:
         - id
-        - problemId
+        - title
         - userId
         - userName
+        - problemId
         - submittedAt
         - languageId
         - totalScore
@@ -1267,6 +1272,8 @@ components:
         id:
           type: string
           description: 提出ID
+        title:
+          type: string
         userId:
           type: string
           description: 提出ユーザーID
@@ -1279,12 +1286,12 @@ components:
           type: string
           format: date-time
           description: 提出日時
-        languageId:
-          type: string
-          description: 提出コードの言語ID
         totalScore:
           type: integer
           description: スコアの合計
+        languageId:
+          type: string
+          description: 提出コードの言語ID
         maxTime:
           type: integer
           description: 実行時間の最大値 (ms)
@@ -1301,12 +1308,13 @@ components:
             $ref: "#/components/schemas/JudgeResult"
       required:
         - id
+        - title
         - userId
         - userName
         - problemId
         - submittedAt
-        - languageId
         - totalScore
+        - languageId
         - maxTime
         - maxMemory
     PostSubmissionRequest:
@@ -1330,6 +1338,8 @@ components:
         id:
           description: 解説ID
           type: string
+        problemId:
+          type: string
         createdAt:
           description: 作成日時
           type: string
@@ -1352,6 +1362,7 @@ components:
           type: string
       required:
         - id
+        - problemId
         - createdAt
         - authorId
         - isPublic
@@ -1369,6 +1380,8 @@ components:
       properties:
         id:
           description: 解説ID
+          type: string
+        problemId:
           type: string
         createdAt:
           description: 作成日時
@@ -1395,6 +1408,7 @@ components:
           type: string
       required:
         - id
+        - problemId
         - createdAt
         - authorId
         - statement
@@ -1418,10 +1432,13 @@ components:
             * `true` - 公開
             * `false` - 非公開 (問題の作者のみ閲覧可)
           type: boolean
+        problemId:
+          type: string
       required:
         - title
         - statement
         - isPublic
+        - problemId
     PutEditorialRequest:
       title: PutEditorialRequest
       description: 解説の変更リクエスト.
