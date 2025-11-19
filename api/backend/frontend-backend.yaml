@@ -701,6 +701,26 @@ paths:
       description: GitHubOAuthのためのエンドポイント
       tags:
         - oauth2
+  "/traq-oauth2/{oauthAction}/authorize":
+    parameters:
+      - $ref: "#/components/parameters/oauthActionInPath"
+    post:
+      summary: postGoogleOAuth2Authorize
+      operationId: postGoogleOAuthAuthorize
+      responses:
+        "200":
+          description: OK(only when oauthAction is "signup" or "login" and no account is binded to the oauth account)
+        "204":
+          description: No content
+        "400":
+          description: Invalid authorization code
+        "401":
+          description: Unauthorized(only when oauthAction is "bind")
+        "500":
+          description: Internal server error
+      description: GoogleOAuthのためのエンドポイント
+      tags:
+        - oauth2
   "/google-oauth2/{oauthAction}/authorize":
     parameters:
       - $ref: "#/components/parameters/oauthActionInPath"
