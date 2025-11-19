@@ -1206,6 +1206,11 @@ components:
             id: e0hrxedlfimd4
         selfIntroduction:
           type: string
+      required:
+        - userName
+        - xId
+        - githubId
+        - selfIntroduction
     PutPasswordRequest:
       title: PutPasswordRequest
       type: object
