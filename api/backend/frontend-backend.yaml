@@ -705,8 +705,8 @@ paths:
     parameters:
       - $ref: "#/components/parameters/oauthActionInPath"
     post:
-      summary: postGoogleOAuth2Authorize
-      operationId: postGoogleOAuthAuthorize
+      summary: postTraqOAuth2Authorize
+      operationId: postTraqOAuthAuthorize
       responses:
         "200":
           description: OK(only when oauthAction is "signup" or "login" and no account is binded to the oauth account)
@@ -718,7 +718,7 @@ paths:
           description: Unauthorized(only when oauthAction is "bind")
         "500":
           description: Internal server error
-      description: GoogleOAuthのためのエンドポイント
+      description: traQOAuthのためのエンドポイント
       tags:
         - oauth2
   "/google-oauth2/{oauthAction}/authorize":
