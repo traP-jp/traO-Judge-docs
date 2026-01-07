@@ -561,30 +561,36 @@ paths:
               $ref: "#/components/schemas/PutPasswordRequest"
       description: ログイン後にパスワードを変更する
   /users/me/devToken:
+    get:
+      summary: getMeDevToken
+      operationId: getMeDevToken
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DevTokenResponse"
+        "401":
+          description: Unauthorized
+      tags:
+        - me
+      description: 開発者トークンを取得します
     post:
       summary: postMeDevToken
       operationId: postMeDevToken
       responses:
         "201":
-          description: 開発者トークンを発行しました
+          description: 正常に新しい開発者トークンを発行しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostDevTokenResponse"
+                $ref: "#/components/schemas/DevTokenResponse"
         "401":
           description: Unauthorized
       tags:
         - me
-      description: 開発者トークンを発行する
-  /users/me/devToken/revoke:
-    post:
-      tags:
-        - me
-      summary: postRevokeMeDevToken
-      operationId: postRevokeMeDevToken
-      responses:
-        "204":
-          description: 開発者トークンを削除しました
+      description: 開発者トークンを再発行します
   /signup/request:
     post:
       summary: postSignupRequest
@@ -1431,7 +1437,7 @@ components:
       required:
         - oldPassword
         - newPassword
-    PostDevTokenResponse:
+    DevTokenResponse:
       title: DevTokenResponse
       type: object
       description: 開発者トークンレスポンス
