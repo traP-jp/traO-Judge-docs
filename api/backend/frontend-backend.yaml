@@ -576,6 +576,8 @@ paths:
       description: 開発者トークンを発行する
   /users/me/devToken/revoke:
     post:
+      tags:
+        - me
       summary: postRevokeMeDevToken
       operationId: postRevokeMeDevToken
       responses:
