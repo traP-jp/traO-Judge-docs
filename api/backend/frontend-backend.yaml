@@ -569,8 +569,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PostDevTokenResponse"
-        "400":
-          description: 不正なリクエストです
+        "401":
+          description: Unauthorized
       tags:
         - me
       description: 開発者トークンを発行する
