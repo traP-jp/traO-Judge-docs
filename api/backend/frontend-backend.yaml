@@ -573,6 +573,8 @@ paths:
                 $ref: "#/components/schemas/DevTokenResponse"
         "401":
           description: Unauthorized
+        "404":
+          description: 開発者トークンが存在しません
       tags:
         - me
       description: 開発者トークンを取得します
@@ -591,6 +593,19 @@ paths:
       tags:
         - me
       description: 開発者トークンを再発行します
+    delete:
+      summary: deleteMeDevToken
+      operationId: deleteMeDevToken
+      responses:
+        "204":
+          description: 正常に開発者トークンを削除しました
+        "401":
+          description: Unauthorized
+        "404":
+          description: 開発者トークンが存在しません
+      tags:
+        - me
+      description: 開発者トークンを削除します
   /signup/request:
     post:
       summary: postSignupRequest
