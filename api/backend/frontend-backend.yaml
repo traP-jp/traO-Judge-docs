@@ -414,6 +414,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+        "424":
+          description: Failed Dependency (not all resources have been uploaded properly)
       description: Complete the problem update process after uploading all resources
   /submissions:
     get:
