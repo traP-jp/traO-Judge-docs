@@ -366,6 +366,53 @@ paths:
             Not Found
             提出が存在しません. (または提出の閲覧権限がありません.)
       description: ソースコードを提出する
+  /problems/{problemId}/update:
+    post:
+      summary: postProblemUpdate
+      tags:
+        - problems
+      parameters:
+        - $ref: "#/components/parameters/problemIdInPath"
+      operationId: postProblemUpdate
+      security:
+        - ProblemUpdateAuth: []
+      responses:
+        "201":
+          description: Update process started
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/PostProblemUpdateResponse"
+        "404":
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostProblemUpdateRequest"
+  /problems/{problemId}/update/{updateId}/complete:
+    post:
+      summary: postCompleteProblemUpdate
+      tags:
+        - problems
+      security:
+        - ProblemUpdateAuth: []
+      parameters:
+        - $ref: "#/components/parameters/problemIdInPath"
+        - $ref: "#/components/parameters/problemUpdateIdInPath"
+      operationId: postCompleteProblemUpdate
+      responses:
+        "204":
+          description: Problem update completed successfully
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "424":
+          description: Failed Dependency (not all resources have been uploaded properly)
+      description: Complete the problem update process after uploading all resources
   /submissions:
     get:
       summary: getSubmissions
@@ -509,6 +556,52 @@ paths:
             schema:
               $ref: "#/components/schemas/PutPasswordRequest"
       description: ログイン後にパスワードを変更する
+  /users/me/devToken:
+    get:
+      summary: getMeDevToken
+      operationId: getMeDevToken
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DevTokenResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 開発者トークンが存在しません
+      tags:
+        - me
+      description: 開発者トークンを取得します
+    post:
+      summary: postMeDevToken
+      operationId: postMeDevToken
+      responses:
+        "201":
+          description: 正常に新しい開発者トークンを発行しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DevTokenResponse"
+        "401":
+          description: Unauthorized
+      tags:
+        - me
+      description: 開発者トークンを再発行します
+    delete:
+      summary: deleteMeDevToken
+      operationId: deleteMeDevToken
+      responses:
+        "204":
+          description: 正常に開発者トークンを削除しました
+        "401":
+          description: Unauthorized
+        "404":
+          description: 開発者トークンが存在しません
+      tags:
+        - me
+      description: 開発者トークンを削除します
   /signup/request:
     post:
       summary: postSignupRequest
@@ -929,6 +1022,11 @@ paths:
       operationId: getLanguages
       description: 使用できる言語の一覧
 components:
+  securitySchemes:
+    ProblemUpdateAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: UUIDv4
   schemas:
     Problem:
       title: Problem
@@ -1107,6 +1205,135 @@ components:
         - difficulty
         - timeLimit
         - memoryLimit
+    PostProblemUpdateRequest:
+      title: PostProblemUpdateRequest
+      type: object
+      description: 問題更新リクエスト
+      properties:
+        emptyDirectories:
+          type: array
+          description: 更新時に新たに作成する空ディレクトリのパス一覧
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リソース名
+            required:
+              - name
+        runtimeTexts:
+          type: array
+          description: 更新時に新たに作成するランタイムテキストファイル一覧
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リソース名
+              label:
+                type: string
+                description: ラベル
+            required:
+              - name
+              - label
+        texts:
+          type: array
+          description: 更新時に新たに作成するテキストファイル一覧
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リソース名
+              hash:
+                type: string
+                description: ファイルのハッシュ値(SHA256)
+            required:
+              - name
+              - hash
+        executions:
+          type: array
+          description: 更新時に新たに作成する実行ファイル一覧
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リソース名
+              scriptName:
+                type: string
+                description: スクリプト名
+              dependencies:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    refTo:
+                      type: string
+                      description: 依存先リソース名
+                    pathEnvVar:
+                      type: string
+                      description: パス環境変数
+                  required:
+                    - refTo
+                    - pathEnvVar
+              timeReservedMs:
+                type: integer
+                description: 実行時間予約(ms)
+            required:
+              - name
+              - hash
+              - scriptName
+              - dependencies
+              - timeReservedMs
+        scripts:
+          type: array
+          description: 更新時に新たに作成するスクリプトファイル一覧
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リソース名
+              hash:
+                type: string
+                description: ファイルのハッシュ値(SHA256)
+            required:
+              - name
+              - hash
+      required:
+        - emptyDirectories
+        - runtimeTexts
+        - texts
+        - executions
+        - scripts
+    PostProblemUpdateResponse:
+      title: PostProblemUpdateResponse
+      type: object
+      description: 問題更新レスポンス
+      properties:
+        updateId:
+          type: string
+          description: 問題更新プロセスのID
+        presignedUrls:
+          type: array
+          description: 問題更新に必要なファイルのアップロード先URL一覧
+          items:
+            type: object
+            properties:
+              resourceName:
+                type: string
+                description: リソース名
+              url:
+                type: string
+                format: uri
+                description: アップロード先URL
+            required:
+              - resourceName
+              - url
+      required:
+        - updateId
+        - presignedUrls
     User:
       title: User
       type: object
@@ -1221,6 +1448,16 @@ components:
       required:
         - oldPassword
         - newPassword
+    DevTokenResponse:
+      title: DevTokenResponse
+      type: object
+      description: 開発者トークンレスポンス
+      properties:
+        devToken:
+          type: string
+          description: 開発者トークン
+      required:
+        - devToken
     SubmissionSummary:
       title: SubmissionSummary
       type: object
@@ -1694,6 +1931,13 @@ components:
       name: problemId
       in: path
       description: 問題ID
+      required: true
+      schema:
+        type: string
+    problemUpdateIdInPath:
+      name: problemUpdateId
+      in: path
+      description: 問題更新ID
       required: true
       schema:
         type: string
