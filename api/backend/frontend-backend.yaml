@@ -1540,6 +1540,9 @@ components:
         problemId:
           type: string
           description: 問題ID
+        sourceCode:
+          type: string
+          description: 提出コード
         submittedAt:
           type: string
           format: date-time
@@ -1570,6 +1573,7 @@ components:
         - userId
         - userName
         - problemId
+        - sourceCode
         - submittedAt
         - totalScore
         - languageId
