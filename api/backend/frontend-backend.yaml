@@ -460,6 +460,21 @@ paths:
             Not Found
             提出が存在しません. (または提出の閲覧権限がありません.)
       description: 個別の提出を取得する
+  "/submissions/{submissionId}/rejudge":
+    parameters:
+      - $ref: "#/components/parameters/submissionIdInPath"
+    post:
+      summary: rejudge a submission
+      operationId: postRejudgeSubmission
+      tags:
+        - submissions
+      responses:
+        "204":
+          description: 正常にリジャッジが開始されました
+        "403":
+          description: 提出をリジャッジする権限がありません
+        "404":
+          description: 提出が存在しません (または提出の閲覧権限がありません)
   "/users/{userId}":
     parameters:
       - $ref: "#/components/parameters/userIdInPath"
