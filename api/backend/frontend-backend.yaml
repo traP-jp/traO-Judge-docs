@@ -129,7 +129,7 @@ paths:
       description: 単一のテストケースの削除
       tags:
         - testcases
-  /problems:
+  "/problems":
     post:
       summary: postProblem
       description: |-
@@ -368,7 +368,7 @@ paths:
         "429":
           description: Too Many Requests 提出のレートリミットを超過しました
       description: ソースコードを提出する
-  /problems/{problemId}/update:
+  "/problems/{problemId}/update":
     post:
       summary: postProblemUpdate
       tags:
@@ -392,7 +392,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PostProblemUpdateRequest"
-  /problems/{problemId}/update/{updateId}/complete:
+  "/problems/{problemId}/update/{updateId}/complete":
     post:
       summary: postCompleteProblemUpdate
       tags:
@@ -415,7 +415,7 @@ paths:
         "424":
           description: Failed Dependency (not all resources have been uploaded properly)
       description: Complete the problem update process after uploading all resources
-  /submissions:
+  "/submissions":
     get:
       summary: getSubmissions
       tags:
@@ -497,7 +497,7 @@ paths:
             Not Found
             ユーザーが存在しません.
       description: 個別のユーザー情報を取得する
-  /users/me:
+  "/users/me":
     get:
       summary: getMe
       operationId: getMe
@@ -535,7 +535,7 @@ paths:
             schema:
               $ref: "#/components/schemas/PutMeRequest"
       description: アイコンなど自身に関連する情報の編集をします
-  /users/me/email:
+  "/users/me/email":
     put:
       summary: putMeEmail
       operationId: putMeEmail
@@ -554,7 +554,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Email"
       description: メール情報を書き換える メール情報を書き換えた後はメール認証が必要である
-  /users/me/password:
+  "/users/me/password":
     put:
       summary: putUserMePassword
       operationId: putUsersMePassword
@@ -573,7 +573,7 @@ paths:
             schema:
               $ref: "#/components/schemas/PutPasswordRequest"
       description: ログイン後にパスワードを変更する
-  /users/me/devToken:
+  "/users/me/devToken":
     get:
       summary: getMeDevToken
       operationId: getMeDevToken
@@ -619,7 +619,7 @@ paths:
       tags:
         - me
       description: 開発者トークンを削除します
-  /signup/request:
+  "/signup/request":
     post:
       summary: postSignupRequest
       operationId: postSignupRequest
@@ -636,7 +636,7 @@ paths:
       tags:
         - authentication
       description: メールアドレスを渡し，そこに認証用のリンクを送る。
-  /signup:
+  "/signup":
     post:
       summary: postSignup
       operationId: postSignup
@@ -660,7 +660,7 @@ paths:
         ユーザー登録
         tokenでメールまたはOAuth情報を管理する
         OAuthの場合、パスワードは不要
-  /login:
+  "/login":
     post:
       summary: postLogin
       operationId: postLogin
@@ -679,7 +679,7 @@ paths:
             schema:
               $ref: "#/components/schemas/UserEmailAndPassword"
       description: ログイン
-  /logout:
+  "/logout":
     post:
       summary: postLogout
       operationId: postLogout
@@ -689,7 +689,7 @@ paths:
       description: ログアウト
       tags:
         - authentication
-  /reset-password/request:
+  "/reset-password/request":
     post:
       summary: postResetPasswordReset
       tags:
@@ -709,7 +709,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Email"
-  /reset-password:
+  "/reset-password":
     post:
       summary: postResetPassword
       operationId: postResetPassword
@@ -728,7 +728,7 @@ paths:
         - authentication
       parameters:
         - $ref: "#/components/parameters/JWTWithUserId"
-  /activate:
+  "/activate":
     get:
       summary: getActivateEmailAddress
       parameters:
@@ -895,7 +895,7 @@ paths:
       description: GithubOAuthのためのエンドポイント
       tags:
         - oauth2
-  /traq-oauth2/revoke:
+  "/traq-oauth2/revoke":
     post:
       summary: postTraqOAuth2Revoke
       operationId: revokeTraqAuth
@@ -938,7 +938,7 @@ paths:
                   message:
                     type: string
       description: traQOAuthのトークンを削除する
-  /google-oauth2/revoke:
+  "/google-oauth2/revoke":
     post:
       summary: postGoogleOAuth2Revoke
       operationId: revokeGoogleAuth
@@ -978,7 +978,7 @@ paths:
                   message:
                     type: string
       description: GoogleOAuthのトークンを削除する
-  /github-oauth2/revoke:
+  "/github-oauth2/revoke":
     post:
       summary: postGithubOAuth2Revoke
       operationId: revokeGithubAuth
@@ -1018,7 +1018,7 @@ paths:
                   message:
                     type: string
       description: GithubOAuthのトークンを削除する
-  /languages:
+  "/languages":
     get:
       summary: getLanguages
       tags:
