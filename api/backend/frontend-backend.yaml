@@ -365,6 +365,8 @@ paths:
           description: |-
             Not Found
             提出が存在しません. (または提出の閲覧権限がありません.)
+        "429":
+          description: Too Many Requests 提出のレートリミットを超過しました
       description: ソースコードを提出する
   /problems/{problemId}/update:
     post:
