@@ -1042,6 +1042,9 @@ components:
         authorId:
           type: string
           description: 作問者のユーザーID
+        authorName:
+          type: string
+          description: 作問者のユーザー名
         isPublic:
           type: boolean
           description: |-
@@ -1075,6 +1078,7 @@ components:
         - id
         - title
         - authorId
+        - authorName
         - isPublic
         - difficulty
         - statement
@@ -1098,6 +1102,9 @@ components:
         authorId:
           type: string
           description: 作問者のユーザーID
+        authorName:
+          type: string
+          description: 作問者のユーザー名
         isPublic:
           type: boolean
           description: |-
@@ -1126,6 +1133,7 @@ components:
         - id
         - title
         - authorId
+        - authorName
         - isPublic
         - difficulty
         - timeLimit
