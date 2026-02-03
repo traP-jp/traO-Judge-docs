@@ -129,6 +129,46 @@ paths:
       description: 単一のテストケースの削除
       tags:
         - testcases
+  "/custom_test":
+    post:
+      summary: postCustomTest
+      operationId: postCustomTest
+      description: コードテストを行う
+      tags:
+        - custom_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostCustomTestRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomTest"
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+    get:
+      summary: getCustomTest
+      operationId: getCustomTest
+      description: 自身のコードテストの内、最新の結果を取得する
+      tags:
+        - custom_test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomTest"
+        "401":
+          description: Unauthorized ログインされていません。
+        "404":
+          description: Not Found 過去にコードテストを行っていません。
   "/problems":
     post:
       summary: postProblem
@@ -1614,7 +1654,7 @@ components:
           description: 提出コードの言語ID
         source:
           type: string
-          description: ソースコード
+          description: ソースコード (base64エンコード済み)
       required:
         - languageId
     EditorialSummary:
@@ -1955,6 +1995,70 @@ components:
           type: string
       required:
         - code
+    PostCustomTestRequest:
+      title: PostCustomTest
+      description: カスタムテストのリクエスト
+      type: object
+      properties:
+        languageId:
+          type: string
+          description: 提出コードの言語ID
+        source:
+          type: string
+          description: ソースコード (base64エンコード済み)
+        input:
+          type: string
+          description: カスタム入力 (base64エンコード済み)
+      required:
+        - languageId
+        - source
+        - input
+    CustomTest:
+      title: CustomTest
+      description: カスタムテストのレスポンス
+      type: object
+      properties:
+        languageId:
+          type: string
+          description: 提出コードの言語ID
+        languageName:
+          type: string
+          description: 提出コードの言語名
+        source:
+          type: string
+          description: ソースコード (base64エンコード済み)
+        input:
+          type: string
+          description: カスタム入力 (base64エンコード済み)
+        time:
+          type: integer
+          description: 実行時間 (ms)
+        memory:
+          type: number
+          description: メモリ使用量 (KiB)
+        stdout:
+          type: string
+          description: プログラムの出力 (base64エンコード済み)
+        stderr:
+          type: string
+          description: プログラムのエラー出力 (base64エンコード済み)
+        exitCode:
+          type: integer
+          description: プログラムの終了コード
+        finished:
+          type: boolean
+          description: ジャッジが完了したかどうか (終了していない場合は定期的に再取得してもらう)
+      required:
+        - languageId
+        - languageName
+        - source
+        - input
+        - time
+        - memory
+        - stdout
+        - stderr
+        - exitCode
+        - finished
   parameters:
     problemIdInPath:
       name: problemId
