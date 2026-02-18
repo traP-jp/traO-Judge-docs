@@ -1733,6 +1733,7 @@ components:
           description: ソースコード (base64エンコード済み)
       required:
         - languageId
+        - source
     EditorialSummary:
       title: EditorialSummary
       description: 解説
