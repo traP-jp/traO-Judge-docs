@@ -5,6 +5,7 @@ info:
   version: 0.1.0
 tags:
   - name: authentication
+  - name: clarifications
   - name: editorials
   - name: email
   - name: language
@@ -129,6 +130,46 @@ paths:
       description: 単一のテストケースの削除
       tags:
         - testcases
+  "/custom_test":
+    post:
+      summary: postCustomTest
+      operationId: postCustomTest
+      description: コードテストを行う
+      tags:
+        - custom_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostCustomTestRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomTest"
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+    get:
+      summary: getCustomTest
+      operationId: getCustomTest
+      description: 自身のコードテストの内、最新の結果を取得する
+      tags:
+        - custom_test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomTest"
+        "401":
+          description: Unauthorized ログインされていません。
+        "404":
+          description: Not Found 過去にコードテストを行っていません。
   "/problems":
     post:
       summary: postProblem
@@ -330,6 +371,81 @@ paths:
       description: 全てのテストケースを取得
       tags:
         - testcases
+  "/problems/{problemId}/clarifications":
+    parameters:
+      - $ref: "#/components/parameters/problemIdInPath"
+    get:
+      summary: getClarificationsOnProblem
+      operationId: getClarificationsOnProblem
+      tags:
+        - clarifications
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClarificationSummaries"
+        "404":
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: ある問題の全ての質問を取得する
+    post:
+      summary: postClarification
+      operationId: postClarification
+      tags:
+        - clarifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostClarificationRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Clarification"
+        "400":
+          description: Bad Request
+        "403":
+          description: |-
+            Forbidden
+            質問を投稿する権限がありません.
+        "404":
+          description: |-
+            Not Found
+            問題が存在しません. (または問題の閲覧権限がありません.)
+      description: 問題に質問を投稿する
+  "/clarifications/{clarificationId}/answer":
+    parameters:
+      - $ref: "#/components/parameters/clarificationIdInPath"
+    post:
+      summary: postClarificationAnswer
+      operationId: postClarificationAnswer
+      tags:
+        - clarifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostClarificationAnswerRequest"
+      responses:
+        "204":
+          description: 正常に回答されました
+        "400":
+          description: Bad Request
+        "403":
+          description: |-
+            Forbidden
+            質問に回答する権限がありません.
+        "404":
+          description: |-
+            Not Found
+            質問が存在しません. (または質問の閲覧権限がありません.)
+      description: 作問者が質問に回答する
   "/problems/{problemId}/submissions":
     parameters:
       - name: problemId
@@ -1614,7 +1730,7 @@ components:
           description: 提出コードの言語ID
         source:
           type: string
-          description: ソースコード
+          description: ソースコード (base64エンコード済み)
       required:
         - languageId
     EditorialSummary:
@@ -1740,6 +1856,80 @@ components:
         isPublic:
           description: 公開されているかどうか
           type: boolean
+    Clarification:
+      title: Clarification
+      description: 問題への質問
+      type: object
+      properties:
+        id:
+          description: 質問ID
+          type: string
+        problemId:
+          description: 問題ID
+          type: string
+        question:
+          description: 質問本文
+          type: string
+        isPublic:
+          description: 質問が全体公開されているかどうか
+          type: boolean
+        answer:
+          description: 回答本文
+          type: string
+          nullable: true
+        authorId:
+          description: 投稿者のユーザーID
+          type: string
+        authorName:
+          description: 投稿者のユーザー名
+          type: string
+        createdAt:
+          description: 作成日時
+          type: string
+          format: date-time
+        updatedAt:
+          description: 更新日時
+          type: string
+          format: date-time
+      required:
+        - id
+        - problemId
+        - question
+        - isPublic
+        - authorId
+        - authorName
+        - createdAt
+        - updatedAt
+    ClarificationSummaries:
+      title: ClarificationSummaries
+      description: 質問一覧
+      type: array
+      items:
+        $ref: "#/components/schemas/Clarification"
+    PostClarificationRequest:
+      title: PostClarificationRequest
+      description: 質問の投稿リクエスト
+      type: object
+      properties:
+        question:
+          description: 質問本文
+          type: string
+      required:
+        - question
+    PostClarificationAnswerRequest:
+      title: PostClarificationAnswerRequest
+      description: 質問への回答リクエスト
+      type: object
+      properties:
+        answer:
+          description: 回答本文
+          type: string
+        isPublic:
+          description: 回答後に全体公開するかどうか
+          type: boolean
+      required:
+        - answer
+        - isPublic
     Signup:
       title: Signup
       type: object
@@ -1955,6 +2145,70 @@ components:
           type: string
       required:
         - code
+    PostCustomTestRequest:
+      title: PostCustomTest
+      description: カスタムテストのリクエスト
+      type: object
+      properties:
+        languageId:
+          type: string
+          description: 提出コードの言語ID
+        source:
+          type: string
+          description: ソースコード (base64エンコード済み)
+        input:
+          type: string
+          description: カスタム入力 (base64エンコード済み)
+      required:
+        - languageId
+        - source
+        - input
+    CustomTest:
+      title: CustomTest
+      description: カスタムテストのレスポンス
+      type: object
+      properties:
+        languageId:
+          type: string
+          description: 提出コードの言語ID
+        languageName:
+          type: string
+          description: 提出コードの言語名
+        source:
+          type: string
+          description: ソースコード (base64エンコード済み)
+        input:
+          type: string
+          description: カスタム入力 (base64エンコード済み)
+        time:
+          type: integer
+          description: 実行時間 (ms)
+        memory:
+          type: number
+          description: メモリ使用量 (KiB)
+        stdout:
+          type: string
+          description: プログラムの出力 (base64エンコード済み)
+        stderr:
+          type: string
+          description: プログラムのエラー出力 (base64エンコード済み)
+        exitCode:
+          type: integer
+          description: プログラムの終了コード
+        finished:
+          type: boolean
+          description: ジャッジが完了したかどうか (終了していない場合は定期的に再取得してもらう)
+      required:
+        - languageId
+        - languageName
+        - source
+        - input
+        - time
+        - memory
+        - stdout
+        - stderr
+        - exitCode
+        - finished
   parameters:
     problemIdInPath:
       name: problemId
@@ -2088,6 +2342,13 @@ components:
       name: editorialId
       in: path
       description: 解説ID
+      required: true
+      schema:
+        type: string
+    clarificationIdInPath:
+      name: clarificationId
+      in: path
+      description: 質問ID
       required: true
       schema:
         type: string
